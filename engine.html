@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faceless Engine — AI Content Studio for Digistore24/7</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d1f45'/><text y='.9em' x='50%25' text-anchor='middle' font-size='60'>⚡</text></svg>">
+<style>
+  :root{
+    --navy:#0d1f45; --navy-deep:#091630; --navy-soft:#132a58;
+    --gold:#FFC32B; --gold-soft:#FFF3D6;
+    --muted:#93a1c0; --line:rgba(147,161,192,.22);
+    --radius:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:#e8edf8; background:linear-gradient(180deg,var(--navy-deep) 0%,#0a1b3d 40%,#0d1f45 100%);
+    min-height:100vh; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--gold)}
+  img{display:block;max-width:100%}
+  button{font-family:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* header */
+  header{position:sticky;top:0;z-index:40;background:rgba(9,22,48,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .header-in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;white-space:nowrap}
+  .logo .dot{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,195,43,.35),transparent 65%),var(--navy-soft);border:1px solid var(--line);display:grid;place-items:center;font-size:15px}
+  .logo b{color:var(--gold)}
+  nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  .tab-btn{
+    background:transparent;border:1px solid transparent;color:var(--muted);font-weight:700;font-size:13.5px;
+    padding:9px 15px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:all .15s;
+  }
+  .tab-btn:hover{color:#e8edf8;border-color:var(--line)}
+  .tab-btn.on{background:var(--gold);color:#231a02}
+
+  /* generic */
+  section.page{display:none;padding:28px 0 80px}
+  section.page.on{display:block}
+  h2{font-size:23px;font-weight:800;margin-bottom:6px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:22px}
+  .card{background:var(--navy-soft);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;justify-content:center;
+    padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;
+    transition:transform .15s, box-shadow .15s, background .15s; cursor:pointer; border:none;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+  .btn-gold{background:var(--gold);color:#231a02;box-shadow:0 6px 18px rgba(255,195,43,.22)}
+  .btn-ghost{background:transparent;color:#e8edf8;border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .btn-sm{padding:7px 13px;font-size:12.5px}
+  label.f{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px}
+  input[type=text],input[type=date],input[type=time],textarea,select{
+    width:100%;background:#0a1b3d;border:1px solid var(--line);border-radius:10px;
+    color:#e8edf8;font-size:14px;padding:10px 13px;font-family:inherit;outline:none;
+  }
+  input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+  textarea{resize:vertical;min-height:90px;line-height:1.45}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>*{flex:1;min-width:150px}
+  .field{margin-bottom:16px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{
+    font-size:12.5px;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--line);
+    border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s;
+  }
+  .chip:hover{color:#e8edf8;border-color:rgba(255,195,43,.5)}
+  .chip.on{background:var(--gold);color:#231a02;border-color:var(--gold)}
+  .muted{color:var(--muted);font-size:13px}
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);
+    background:var(--gold);color:#231a02;font-weight:800;font-size:14px;border-radius:999px;
+    padding:12px 22px;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0;transition:all .3s;z-index:99;pointer-events:none;
+  }
+  .toast.show{transform:translateX(-50%);opacity:1}
+
+  /* home */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:26px}
+  .stat{background:var(--navy-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+  .stat b{display:block;font-size:30px;font-weight:800;color:var(--gold)}
+  .stat span{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:10px}
+  .flow a{display:block;background:var(--navy-soft);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;transition:border-color .15s}
+  .flow a:hover{border-color:rgba(255,195,43,.5)}
+  .flow a b{display:block;margin-bottom:4px;font-size:14.5px}
+  .flow a span{font-size:12.5px;color:var(--muted)}
+
+  /* results */
+  .result{background:#0a1b3d;border:1px dashed rgba(255,195,43,.4);border-radius:12px;padding:16px;margin-top:14px}
+  .result pre{white-space:pre-wrap;font-family:inherit;font-size:14.5px;line-height:1.55}
+  .result .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(35,26,2,.3);border-top-color:#231a02;border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .err{color:#ff9a9a;font-size:13px;margin-top:10px}
+
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:18px}
+  .img-card{background:var(--navy-soft);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .img-card img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#0a1b3d}
+  .img-card .meta{padding:10px 12px}
+  .img-card .meta .p{font-size:12px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
+
+  /* calendar */
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:18px 0}
+  .cal .dow{text-align:center;font-size:11px;color:var(--muted);font-weight:700;padding:4px 0}
+  .cal .day{min-height:64px;background:#0a1b3d;border:1px solid var(--line);border-radius:10px;padding:6px 8px;font-size:12px}
+  .cal .day.dim{opacity:.35}
+  .cal .day.today{border-color:var(--gold)}
+  .cal .day .n{font-weight:800;font-size:12.5px}
+  .cal .day .dots{display:flex;gap:3px;margin-top:4px;flex-wrap:wrap}
+  .cal .day .d{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+  .cal .day .d.done{background:#4ade80}
+  .cal .day .more{font-size:10px;color:var(--muted)}
+  .postrow{display:flex;align-items:flex-start;gap:14px;background:var(--navy-soft);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;flex-wrap:wrap}
+  .postrow .when{min-width:130px;font-weight:800;font-size:13px;color:var(--gold)}
+  .postrow .body{flex:1;min-width:200px}
+  .postrow .body .p{font-size:13px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .postrow .plat{display:flex;gap:5px;flex-wrap:wrap;min-width:120px;justify-content:flex-end}
+  .postrow .plat span{font-size:11px;font-weight:800;border:1px solid var(--line);border-radius:6px;padding:3px 8px;text-transform:uppercase;color:var(--muted)}
+  .postrow .plat .done{color:#4ade80;border-color:rgba(74,222,128,.5)}
+  .status-tag{font-size:11px;font-weight:800;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .status-tag.ready{background:var(--gold);color:#231a02}
+  .status-tag.posted{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.4)}
+  .status-tag.draft{background:transparent;border:1px solid var(--line);color:var(--muted)}
+
+  /* hooks */
+  .hooklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .hook{background:var(--navy-soft);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;display:flex;flex-direction:column;gap:10px}
+  .hook .h-actions{display:flex;gap:8px}
+
+  footer{border-top:1px solid var(--line);padding:18px 0;text-align:center;font-size:12px;color:#5f6d90}
+
+  @media(max-width:640px){
+    .header-in{height:auto;padding:10px 0;flex-direction:column;align-items:stretch}
+    nav{justify-content:flex-start}
+    .postrow .plat{justify-content:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-in">
+    <div class="logo"><span class="dot">⚡</span> Faceless<b>Engine</b></div>
+    <nav id="nav">
+      <button class="tab-btn on" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="create">✍️ Create</button>
+      <button class="tab-btn" data-tab="images">🖼️ AI Images</button>
+      <button class="tab-btn" data-tab="calendar">📅 Calendar</button>
+      <button class="tab-btn" data-tab="hooks">🪝 Hooks &amp; Ideas</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= HOME ================= -->
+  <section class="page on" id="page-home">
+    <h2>Studio dashboard</h2>
+    <p class="sub">Generate → schedule → publish. Your entire faceless content pipeline in one place.</p>
+    <div class="stat-grid">
+      <div class="stat"><b id="st-planned">0</b><span>Posts planned</span></div>
+      <div class="stat"><b id="st-posted">0</b><span>Published</span></div>
+      <div class="stat"><b id="st-images">0</b><span>AI images</span></div>
+      <div class="stat"><b id="st-ideas">0</b><span>Ideas saved</span></div>
+    </div>
+    <div class="card">
+      <b style="font-size:15px">Jump in</b>
+      <div class="flow">
+        <a href="#" data-goto="create"><b>✍️ Write today's post</b><span>AI captions, scripts & video hooks</span></a>
+        <a href="#" data-goto="images"><b>🖼️ Make a cover</b><span>Free AI images, brand-styled</span></a>
+        <a href="#" data-goto="calendar"><b>📅 Plan the week</b><span>Calendar + one-click publishing</span></a>
+        <a href="#" data-goto="hooks"><b>🪝 Grab a hook</b><span>Starter hook library + idea bank</span></a>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <b style="font-size:15px">Next 3 on the calendar</b>
+      <div id="home-next" style="margin-top:12px"></div>
+    </div>
+    <p class="muted" style="margin-top:18px">ℹ️ Publishing is assisted (one-click opens the platform + copies your caption). True hands-off auto-posting requires each platform's official developer approval — this studio does everything else locally and free.</p>
+  </section>
+
+  <!-- ================= CREATE ================= -->
+  <section class="page" id="page-create">
+    <h2>Create</h2>
+    <p class="sub">Brief in → post out. Optionally spotlight one of your shop products.</p>
+    <div class="card">
+      <div class="field">
+        <label class="f">Post type</label>
+        <div class="chips" id="fmt-chips"></div>
+      </div>
+      <div class="field">
+        <label class="f">Spotlight product (optional)</label>
+        <select id="sel-product"><option value="">— none, freestyle —</option></select>
+      </div>
+      <div class="field">
+        <label class="f">What is it about?</label>
+        <textarea id="brief" placeholder="e.g. Why beginners don't need a big following to make their first digital product sale"></textarea>
+      </div>
+      <div class="row">
+        <div><button class="btn btn-gold" id="ai-write">✨ Generate post</button></div>
+        <div class="muted" style="align-self:center">Free AI — no API key needed. Regenerate for a different angle.</div>
+      </div>
+      <div id="create-out"></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <b>Manual override</b>
+      <p class="muted" style="margin:4px 0 12px">Write or edit the final caption here before scheduling.</p>
+      <textarea id="manual" style="min-height:130px" placeholder="Paste your generated caption here, or write from scratch…"></textarea>
+      <div class="row" style="margin-top:12px">
+        <div><button class="btn btn-ghost btn-sm" id="copy-manual">📋 Copy</button></div>
+        <div><button class="btn btn-ghost btn-sm" id="to-schedule">📤 Take to Calendar</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= IMAGES ================= -->
+  <section class="page" id="page-images">
+    <h2>AI Images</h2>
+    <p class="sub">No account, no key, no cost. Same seed re-loads the same image.</p>
+    <div class="card">
+      <div class="field">
+        <label class="f">Style preset</label>
+        <div class="chips" id="style-chips"></div>
+      </div>
+      <div class="row">
+        <div><label class="f">What's the image about?</label><input type="text" id="img-prompt" placeholder="e.g. coffee flatlay with phone and notebook"></div>
+        <div style="max-width:210px"><label class="f">Size</label>
+          <select id="img-size">
+            <option value="1080x1920">9:16 vertical (TikTok/Reels/Pin)</option>
+            <option value="1080x1080">1:1 square (feed)</option>
+            <option value="1200x675">16:9 wide (YouTube)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-gold" id="img-gen">🖼️ Generate image</button>
+    </div>
+    <div class="gal" id="gallery"></div>
+  </section>
+
+  <!-- ================= CALENDAR ================= -->
+  <section class="page" id="page-calendar">
+    <h2>Calendar &amp; publish</h2>
+    <p class="sub">Plan posts, then one click: opens the platform's upload page with your caption copied.</p>
+    <div class="card">
+      <b style="font-size:15px">Schedule a post</b>
+      <div class="row" style="margin-top:12px">
+        <div><label class="f">Date</label><input type="date" id="sc-date"></div>
+        <div><label class="f">Time</label><input type="time" id="sc-time" value="12:00"></div>
+        <div style="max-width:150px"><label class="f">Status</label>
+          <select id="sc-status"><option value="draft">Draft</option><option value="ready" selected>Ready</option></select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label class="f">Caption</label>
+        <textarea id="sc-text" placeholder="Your caption (use “Take to Calendar” from Create)"></textarea>
+      </div>
+      <div class="row">
+        <div><label class="f">Image (optional, pick from gallery)</label><select id="sc-image"><option value="">— none / upload manually —</option></select></div>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label class="f">Platforms</label>
+        <div class="chips" id="plat-chips"></div>
+      </div>
+      <div class="row">
+        <div><button class="btn btn-gold" id="sc-save">💾 Save post</button></div>
+        <div class="muted" style="align-self:center" id="sc-id-wrap"></div>
+      </div>
+    </div>
+
+    <div id="cal-box"></div>
+    <div id="cal-list" style="margin-top:18px"></div>
+  </section>
+
+  <!-- ================= HOOKS ================= -->
+  <section class="page" id="page-hooks">
+    <h2>Hooks &amp; idea bank</h2>
+    <p class="sub">Starting hooks adapted for faceless digital-product content. Tap "Use" to drop one into the Create brief.</p>
+    <div class="card" style="margin-bottom:16px">
+      <b style="font-size:15px">Add an idea</b>
+      <div class="row" style="margin-top:12px">
+        <div><input type="text" id="idea-input" placeholder="Video idea / content prompt…"></div>
+        <div style="max-width:150px;flex:0 0 auto"><button class="btn btn-gold" id="idea-add">➕ Add</button></div>
+      </div>
+    </div>
+    <div class="hooklist" id="hook-list"></div>
+    <h2 style="margin-top:30px">My ideas</h2>
+    <div class="hooklist" id="idea-list" style="margin-top:12px"></div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<footer>Faceless Engine · local-first content studio for <a href="https://payhip.com/DigitalStartUpForYou" target="_blank" rel="noopener">Digistore24/7</a> — everything stays in this browser (localStorage).</footer>
+
+<script>
+/* ===================== DATA ===================== */
+const SHOP = "https://payhip.com/DigitalStartUpForYou";
+const PRODUCTS = [
+  {t:"Digital Marketing Guide",p:7,d:"The $7 door for beginners"},
+  {t:"28 Day Reels Challenge",p:9,d:"28-day content plan"},
+  {t:"Pinterest and Etsy Sales Guide",p:12,d:"Pinterest + Etsy sales"},
+  {t:"Faceless Marketing Playbook",p:17,d:"faceless strategy"},
+  {t:"Faceless TikTok Marketing",p:17,d:"faceless TikTok method"},
+  {t:"Digital Wealth Guide",p:17,d:"create + sell your first product"},
+  {t:"Faceless Youtube Automation",p:25,d:"faceless YouTube automation"},
+  {t:"The Hook Playbook",p:29,d:"100+ proven hooks"},
+  {t:"Social Media Mastery",p:40,d:"full faceless system"},
+  {t:"Digital Marketing Mini Course",p:47,d:"3-hour audio+video course"},
+  {t:"Instagram Growth and Sales Blueprint",p:47,d:"0 → first IG sale"},
+  {t:"Claim 100 REELS",p:57,d:"100 ready hooks + captions"},
+];
+
+const FORMATS = {
+  "TikTok caption": "a TikTok caption, under 150 words, ending with a CTA to the shop link in bio",
+  "Reel/short script": "a 7-second TikTok/Reel script: 1 hook line, 2 on-screen caption lines, 1 final CTA line",
+  "IG caption": "an Instagram caption under 120 words with a hook first line and CTA to link in bio",
+  "Pinterest pin": "a Pinterest pin title (under 60 chars) and a pin description (under 480 chars) with keywords",
+  "X / Threads post": "a short punchy X (Twitter)-style post, under 250 chars",
+  "YouTube title+desc": "a YouTube video title (under 60 chars) and a 3-sentence description with keywords",
+};
+
+const BRAND_STYLE = "clean modern flatlay aesthetic, deep navy blue and gold color scheme, smartphone, notebook and coffee props, bold premium look, no text, no watermark, no logos, no people";
+const STYLES = {
+  "Brand (navy & gold)": BRAND_STYLE,
+  "Aesthetic flatlay": "aesthetic instagram flatlay, soft daylight, feminine workspace, no text, no people visible, film grain",
+  "Bold text-space": "minimal social media background, high contrast color blocks, big empty center space for text overlay, no text, no people",
+  "Desk / hands only": "hands-only desk shot, typing on smartphone, warm light, shallow depth of field, no visible face",
+  "Dark luxury": "dark moody premium flatlay, gold accents on navy, dramatic shadows, no text, no people",
+};
+
+const PLATFORMS = {
+  "TikTok":   {url:"https://www.tiktok.com/tiktokstudio/upload", copy:true},
+  "Instagram":{url:"https://www.instagram.com/", copy:true},
+  "Pinterest":{url:"https://www.pinterest.com/pin-builder/", copy:true},
+  "YouTube":  {url:"https://studio.youtube.com/channel/upload", copy:true},
+  "X":        {url:"https://x.com/compose/post", copy:true},
+  "Facebook": {url:"https://www.facebook.com/", copy:true},
+  "Threads":  {url:"https://www.threads.net/", copy:true},
+  "LinkedIn": {url:"https://www.linkedin.com/feed/?shareActive=true", copy:true},
+};
+
+const HOOKS = [
+  "POV: you stopped overthinking and just started selling digital products 👀",
+  "Nobody needs to know what faceless creators actually use to post daily…",
+  "A whole digital business from $7 — guess what everyone buys first 🛒",
+  "3 seconds. That's how long your video has. Here's the hook for it:",
+  "You don't need 10k followers. You need 1 good offer.",
+  "Shy person's guide to selling online (no camera, no voice, no problem)",
+  "The content plan that writes itself while you sleep:",
+  "I asked AI what to post today — it answered in one sentence:",
+  "POV: your hook playbook is doing all the talking for you 📖",
+  "Stop saving tutorials. Start selling something.",
+  "Faceless ≠ invisible. It means the product does the talking.",
+  "The 3-second rule of TikTok nobody talks long about:",
+  "How I'd start over with $7 and zero followers:",
+  "One Thursday night. One guide. One weekend of posting. Here's the plan:",
+  "Interest + hooks > personality. Proof:",
+  "Everything wrong with \"I don't know what to post\":",
+  "The lazy lever: copy, paste, post. 100 of them.",
+  "Why faceless content actually outperforms (it's not what you think)",
+  "Your feed is not a diary — it's a shop. Here's the difference:",
+  "Beginners keep asking what to sell. The answer has been $7 all along.",
+];
+
+/* ===================== STATE ===================== */
+const store = {
+  get(k, d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch(e){ return d } },
+  set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
+};
+let posts   = store.get("fe_posts", []);
+let ideas   = store.get("fe_ideas", []);
+let images  = store.get("fe_images", []);
+let fmt     = localStorage.getItem("fe_fmt") || "TikTok caption";
+let style   = localStorage.getItem("fe_style") || "Brand (navy & gold)";
+let selPlats = new Set(["TikTok"]);
+let editingId = null;
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const money = n => "$" + n;
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const fmtDate = d => { const dt = new Date(d + "T12:00"); return dt.toLocaleDateString(undefined,{weekday:"short", month:"short", day:"numeric"}) };
+
+let toastT;
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(()=>t.classList.remove("show"), 2600); }
+
+async function copyText(txt){
+  const fallback = () => {
+    const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta);
+    ta.select(); try{ document.execCommand("copy"); toast("Copied to clipboard ✅") }catch(e2){ toast("Copy failed — select manually") }
+    ta.remove();
+  };
+  const main = navigator.clipboard ? navigator.clipboard.writeText(txt)
+    .then(()=>toast("Copied to clipboard ✅"))
+    .catch(fallback) : Promise.resolve(fallback());
+  await Promise.race([main, new Promise(r=>setTimeout(r, 1500))]);
+}
+
+function productSpotlight(p){
+  return `Spotlight product: “${p.t}” — ${money(p.p)}. What it is: ${p.d}. THE SHOP HAS ALL 12 PRODUCTS, NEVER mention prices other than stated.`;
+}
+
+/* ===================== TABS ===================== */
+$("#nav").addEventListener("click", e=>{
+  const b = e.target.closest(".tab-btn"); if(!b) return;
+  gotoTab(b.dataset.tab);
+});
+$$(".flow a[data-goto]").forEach(a=>a.addEventListener("click", e=>{ e.preventDefault(); gotoTab(a.dataset.goto) }));
+function gotoTab(id){
+  $$(".tab-btn").forEach(b=>b.classList.toggle("on", b.dataset.tab===id));
+  $$(".page").forEach(p=>p.classList.toggle("on", p.id === "page-"+id));
+  if(id==="calendar"){ renderCal(); renderCalList(); }
+  if(id==="home") renderHome();
+}
+
+/* ===================== CREATE ===================== */
+$("#fmt-chips").innerHTML = Object.keys(FORMATS).map(k=>`<button class="chip${k===fmt?" on":""}" data-f="${k}">${k}</button>`).join("");
+$("#sel-product").innerHTML = `<option value="">— none, freestyle —</option>` +
+  PRODUCTS.map((p,i)=>`<option value="${i}">${p.t} — ${money(p.p)}</option>`).join("");
+
+$("#fmt-chips").addEventListener("click", e=>{
+  const c = e.target.closest(".chip"); if(!c) return;
+  fmt = c.dataset.f; localStorage.setItem("fe_fmt", fmt);
+  $$("#fmt-chips .chip").forEach(x=>x.classList.toggle("on", x===c));
+});
+
+$("#ai-write").addEventListener("click", async ()=>{
+  const brief = $("#brief").value.trim();
+  if(!brief){ toast("Write a short brief first ✍️"); return; }
+  const btn = $("#ai-write"); const old = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> Writing…`;
+  $("#create-out").innerHTML = "";
+
+  const prod = $("#sel-product").value !== "" ? PRODUCTS[+$("#sel-product").value] : null;
+  const prompt = [
+    `You write social content for a faceless digital-products shop for camera-shy creators. The shop sells playbooks, hooks, challenges and courses from $7. Tone: confident, witty, beginner-friendly. Never fake earnings or income claims.`,
+    prod ? `Today you promote the product “${prod.t}” (price ${money(prod.p)}): ${prod.d}. Mention it naturally; never state a different price.` : ``,
+    `Write exactly ${FORMATS[fmt]}.`,
+    `Topic: “${brief}”.`,
+    `Rules: no hashtags (I'll add them), no URLs, no emoji spam (max 2 total). Output ONLY the content itself.`,
+  ].join(" ");
+
+  try{
+    const r = await fetch("https://text.pollinations.ai/" + encodeURIComponent(prompt), {method:"GET"});
+    if(!r.ok) throw new Error("HTTP " + r.status);
+    let text = (await r.text()).trim();
+    text = text.replace(/^["'`]+|["'`]+$/g, "");
+    renderCreateResult(text, prod);
+  }catch(e){
+    $("#create-out").innerHTML = `<p class="err">AI didn't answer (could be busy or offline). Write in the manual box below instead.</p>`;
+  }finally{
+    btn.disabled = false; btn.innerHTML = old;
+  }
+});
+
+function renderCreateResult(text, prod){
+  $("#create-out").innerHTML = `
+    <div class="result">
+      <pre id="ai-text">${esc(text)}</pre>
+      <div class="acts">
+        <button class="btn btn-ghost btn-sm" id="regen">🔄 Regenerate</button>
+        <button class="btn btn-ghost btn-sm" id="use-ai">📤 Take to Calendar</button>
+        <button class="btn btn-ghost btn-sm" id="save-idea">💡 Save as idea</button>
+        <button class="btn btn-gold btn-sm" id="copy-ai">📋 Copy</button>
+      </div>
+    </div>`;
+  $("#copy-ai").addEventListener("click", ()=>copyText($("#ai-text").textContent));
+  $("#use-ai").addEventListener("click", ()=>{ $("#manual").value = $("#ai-text").textContent; takeToSchedule($("#ai-text").textContent); });
+  $("#save-idea").addEventListener("click", ()=>{ ideas.unshift(text.slice(0,200)); store.set("fe_ideas", ideas); $("#st-ideas").textContent = ideas.length; toast("Saved to idea bank 💡") });
+  $("#regen").addEventListener("click", ()=>$("#ai-write").click());
+}
+$("#copy-manual").addEventListener("click", ()=>copyText($("#manual").value));
+$("#to-schedule").addEventListener("click", ()=>takeToSchedule($("#manual").value));
+
+function takeToSchedule(text){
+  if(!text.trim()){ toast("Nothing to schedule yet"); return; }
+  gotoTab("calendar");
+  $("#sc-text").value = text;
+  const d = new Date(Date.now() + 86400000);
+  $("#sc-date").value = d.toISOString().slice(0,10);
+  $("#sc-date").focus();
+  toast("Caption loaded — pick a date & platforms 📅");
+}
+
+/* ===================== IMAGES ===================== */
+$("#style-chips").innerHTML = Object.keys(STYLES).map(k=>`<button class="chip${k===style?" on":""}" data-s="${k}">${k}</button>`).join("");
+$("#style-chips").addEventListener("click", e=>{
+  const c = e.target.closest(".chip"); if(!c) return;
+  style = c.dataset.s; localStorage.setItem("fe_style", style);
+  $$("#style-chips .chip").forEach(x=>x.classList.toggle("on", x===c));
+});
+
+$("#img-gen").addEventListener("click", ()=>{
+  const base = $("#img-prompt").value.trim();
+  if(!base){ toast("Describe the image first 🖼️"); return; }
+  const [w,h] = $("#img-size").value.split("x");
+  const seed = 1e6 + Math.floor(Math.random()*9e6);
+  const item = { id: uid(), prompt: base, style, w:+w, h:+h, seed };
+  images.unshift(item); store.set("fe_images", images);
+  renderGallery();
+  $("#img-prompt").value = "";
+  toast("Generating… appears in a moment");
+});
+
+function imgUrl(it){
+  const prompt = encodeURIComponent((STYLES[it.style] || STYLES["Brand (navy & gold)"]) + ", " + it.prompt);
+  return `https://image.pollinations.ai/prompt/${prompt}?width=${it.w}&height=${it.h}&nologo=true&seed=${it.seed}`;
+}
+
+function renderGallery(){
+  $("#gallery").innerHTML = images.length ? images.slice(0,24).map(it=>`
+    <div class="img-card">
+      <img src="${imgUrl(it)}" alt="${esc(it.prompt)}" loading="lazy">
+      <div class="meta">
+        <div class="p">${esc(it.prompt)} · ${it.style}</div>
+        <button class="btn btn-ghost btn-sm" data-dl="${it.id}">⬇️ Download</button>
+        <button class="btn btn-ghost btn-sm" data-cal="${it.id}" style="margin-top:6px; width:100%">📅 Use in a post</button>
+      </div>
+    </div>`).join("") : `<p class="muted">No images yet — generate your first one above 👆</p>`;
+}
+
+$("#gallery").addEventListener("click", async e=>{
+  const dl = e.target.closest("[data-dl]");
+  const cal = e.target.closest("[data-cal]");
+  if(dl){
+    const it = images.find(i=>i.id===dl.dataset.dl);
+    const btn = dl;
+    btn.disabled = true;
+    try{
+      const r = await fetch(imgUrl(it)); const blob = await r.blob();
+      const u = URL.createObjectURL(blob);
+      const a = document.createElement("a"); a.href = u; a.download = "faceless-" + it.id + ".jpg"; a.click();
+      URL.revokeObjectURL(u); toast("Downloading ⬇️");
+    }catch(err){
+      open(imgUrl(it), "_blank"); toast("Opened image — right-click to save");
+    }
+    btn.disabled = false;
+  }
+  if(cal){
+    const it = images.find(i=>i.id===cal.dataset.cal);
+    gotoTab("calendar");
+    $("#sc-image").value = it.id;
+    $("#sc-image").dispatchEvent(new Event("change"));
+    toast("Image attached 🖼️");
+  }
+  if(!dl && !cal && e.target.classList.contains("img-card")||false){}
+});
+
+function refreshImageSelect(){
+  $("#sc-image").innerHTML = `<option value="">— none / upload manually —</option>` +
+    images.slice(0,24).map(it=>`<option value="${it.id}">${esc(it.prompt.slice(0,40))} (${it.w}×${it.h})</option>`).join("");
+}
+
+/* ===================== CALENDAR ===================== */
+$("#plat-chips").innerHTML = Object.keys(PLATFORMS).map(k=>`<button class="chip${selPlats.has(k)?" on":""}" data-p="${k}">${k}</button>`).join("");
+$("#plat-chips").addEventListener("click", e=>{
+  const c = e.target.closest(".chip"); if(!c) return;
+  selPlats.has(c.dataset.p) ? (selPlats.delete(c.dataset.p)) : selPlats.add(c.dataset.p);
+  c.classList.toggle("on", selPlats.has(c.dataset.p));
+});
+
+$("#sc-save").addEventListener("click", ()=>{
+  const date = $("#sc-date").value, time = $("#sc-time").value, text = $("#sc-text").value.trim(), status = $("#sc-status").value;
+  if(!date || !text){ toast("Date + caption required 📅"); return; }
+  const data = {
+    id: editingId || uid(), date, time: time||"12:00", text,
+    platforms:[...selPlats], image: $("#sc-image").value, status
+  };
+  if(editingId){ posts = posts.map(p => p.id===editingId ? data : p); editingId = null; $("#sc-id-wrap").innerHTML = ""; }
+  else posts.push(data);
+  posts.sort((a,b)=> (a.date+a.time).localeCompare(b.date+b.time));
+  store.set("fe_posts", posts);
+  resetScheduleForm();
+  renderHome(); renderCal(); renderCalList(); refreshImageSelect();
+  toast("Post saved 📅");
+});
+
+function resetScheduleForm(){
+  $("#sc-text").value = ""; $("#sc-date").value = "";
+  $("#sc-status").value = "ready";
+  $("#sc-image").value = "";
+}
+
+let calMonth = new Date();
+function renderCal(){
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  const first = new Date(y,m,1), startDow = (first.getDay()+6)%7; // monday=0
+  const dim = new Date(y,m+1,0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const byDate = {};
+  posts.forEach(p=>{ (byDate[p.date] = byDate[p.date]||[]).push(p); });
+  let html = `
+    <div class="card" style="margin-top:18px">
+      <div class="row" style="align-items:center;justify-content:space-between">
+        <div><button class="btn btn-ghost btn-sm" id="cal-prev">←</button></div>
+        <div><b>${first.toLocaleDateString(undefined,{month:"long", year:"numeric"})}</b></div>
+        <div><button class="btn btn-ghost btn-sm" id="cal-next">→</button></div>
+      </div>
+      <div class="cal">
+        <div class="dow">Mon</div><div class="dow">Tue</div><div class="dow">Wed</div><div class="dow">Thu</div><div class="dow">Fri</div><div class="dow">Sat</div><div class="dow">Sun</div>`;
+  for(let i=0;i<startDow;i++) html += `<div class="day dim"></div>`;
+  for(let d=1; d<=dim; d++){
+    const ds = `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const list = byDate[ds] || [];
+    const isToday = +new Date(y,m,d) === +today;
+    html += `<div class="day${isToday?" today":""}"><div class="n">${d}</div><div class="dots">` +
+      list.slice(0,4).map(p=>`<span class="d${p.status==="posted"?" done":""}" title="${esc(p.platforms.join(", "))}"></span>`).join("") +
+      (list.length>4?`<span class="more">+${list.length-4}</span>`:"") + `</div></div>`;
+  }
+  html += `</div></div>`;
+  $("#cal-box").innerHTML = html;
+  $("#cal-prev").addEventListener("click", ()=>{ calMonth = new Date(y,m-1,1); renderCal(); });
+  $("#cal-next").addEventListener("click", ()=>{ calMonth = new Date(y,m+1,1); renderCal(); });
+}
+
+function renderCalList(){
+  const upcoming = posts.filter(p=>p.status!=="posted");
+  const done = posts.filter(p=>p.status==="posted");
+  $("#cal-list").innerHTML =
+    `<h2 style="margin-bottom:10px">Scheduled <span class="muted" style="font-size:14px;font-weight:600">(${upcoming.length})</span></h2>` +
+    (upcoming.length ? upcoming.map(p=>postRow(p)).join("") : `<p class="muted">Nothing scheduled yet.</p>`) +
+    `<h2 style="margin:26px 0 10px">Published <span class="muted" style="font-size:14px;font-weight:600">(${done.length})</span></h2>` +
+    (done.length ? done.map(p=>postRow(p)).join("") : `<p class="muted">Archive empty.</p>`);
+}
+
+function postRow(p){
+  const img = images.find(i=>i.id===p.image);
+  return `<div class="postrow" data-id="${p.id}">
+    <div class="when">${fmtDate(p.date)}<br><span class="muted" style="font-weight:600">${p.time}</span></div>
+    <div class="body">
+      <p class="p" style="margin-top:4px">${esc(p.text)}</p>
+      ${p.image ? `<p class="muted">🖼️ ${esc(img?.prompt || "image")}</p>` : ""}
+      <div style="margin-top:8px"><span class="status-tag ${p.status}">${p.status}</span></div>
+    </div>
+    <div class="plat">${p.platforms.map(x=>`<span class="${p.status==="posted"?"done":""}">${x}</span>`).join("")}</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      ${p.status!=="posted" ? `<button class="btn btn-gold btn-sm" data-publish="${p.id}">🚀 Publish</button>` : ""}
+      <button class="btn btn-ghost btn-sm" data-posted="${p.id}">✅</button>
+      <button class="btn btn-ghost btn-sm" data-edit="${p.id}">✏️</button>
+      <button class="btn btn-ghost btn-sm" data-del="${p.id}">🗑️</button>
+    </div>
+  </div>`;
+}
+
+document.body.addEventListener("click", async e=>{
+  const pub = e.target.closest("[data-publish]");
+  const done = e.target.closest("[data-posted]");
+  const edit = e.target.closest("[data-edit]");
+  const del = e.target.closest("[data-del]");
+
+  if(pub){
+    const p = posts.find(x=>x.id===pub.dataset.publish);
+    const p0 = p.platforms[0];
+    const url = PLATFORMS[p0]?.url || "https://x.com/compose/post";
+    await copyText(p.text + (p.image ? "  [attach image]" : ""));
+    open(url, "_blank");
+    if(p.platforms.length > 1){
+      let i = 1;
+      for(const pl of p.platforms.slice(1)){
+        setTimeout(async ()=>{ await copyText("Also posting to " + pl + " — caption copied"); open(PLATFORMS[pl].url, "_blank"); }, 1200*i++);
+      }
+    }
+    toast("Opened " + p0 + " — caption copied. Upload & post, then tap ✅");
+    return;
+  }
+  if(done){ donePost(done.dataset.posted); }
+  if(edit){
+    const p = posts.find(x=>x.id===edit.dataset.edit);
+    editingId = p.id;
+    $("#sc-date").value = p.date; $("#sc-time").value = p.time;
+    $("#sc-text").value = p.text; $("#sc-status").value = p.status;
+    selPlats = new Set(p.platforms);
+    $$("#plat-chips .chip").forEach(c=>c.classList.toggle("on", selPlats.has(c.dataset.p)));
+    refreshImageSelect(); $("#sc-image").value = p.image||"";
+    $("#sc-text").focus();
+    toast("Editing — save when done ✏️");
+  }
+  if(del){ posts = posts.filter(x=>x.id!==del.dataset.del); store.set("fe_posts", posts); renderAll(); toast("Deleted"); }
+});
+
+function donePost(id){
+  posts = posts.map(p=>p.id===id ? {...p, status:"posted"} : p);
+  store.set("fe_posts", posts); renderAll(); toast("Marked as posted ✅");
+}
+
+/* ===================== HOOKS & IDEAS ===================== */
+function renderHooks(){
+  $("#hook-list").innerHTML = HOOKS.map((h,i)=>`
+    <div class="hook"><div>${esc(h)}</div>
+    <div class="h-actions">
+      <button class="btn btn-gold btn-sm" data-usehook="${i}">✍️ Use</button>
+      <button class="btn btn-ghost btn-sm" data-copyhook="${i}">📋</button>
+    </div></div>`).join("");
+}
+$("#hook-list").addEventListener("click", e=>{
+  const use = e.target.closest("[data-usehook]");
+  const cp = e.target.closest("[data-copyhook]");
+  if(use){ $("#brief").value = HOOKS[+use.dataset.usehook]; gotoTab("create"); toast("Hook loaded into Create ✍️"); }
+  if(cp){ copyText(HOOKS[+cp.dataset.copyhook]); }
+});
+
+$("#idea-add").addEventListener("click", ()=>{
+  const v = $("#idea-input").value.trim(); if(!v){ return; }
+  ideas.unshift(v); store.set("fe_ideas", ideas); $("#idea-input").value = ""; renderIdeas(); toast("Idea saved 💡");
+});
+$("#idea-input").addEventListener("keydown", e=>{ if(e.key==="Enter") $("#idea-add").click(); });
+function renderIdeas(){
+  $("#idea-list").innerHTML = ideas.length ? ideas.map((v,i)=>`
+    <div class="hook"><div>${esc(v)}</div>
+    <div class="h-actions">
+      <button class="btn btn-gold btn-sm" data-useidea="${i}">✍️ Use</button>
+      <button class="btn btn-ghost btn-sm" data-copyidea="${i}">📋</button>
+      <button class="btn btn-ghost btn-sm" data-delidea="${i}">🗑️</button>
+    </div></div>`).join("") : `<p class="muted">No ideas saved yet — capture them the moment you think of them.</p>`;
+}
+$("#idea-list").addEventListener("click", e=>{
+  const use = e.target.closest("[data-useidea]");
+  const cp = e.target.closest("[data-copyidea]");
+  const del = e.target.closest("[data-delidea]");
+  if(use){ $("#brief").value = ideas[+use.dataset.useidea]; gotoTab("create"); }
+  if(cp){ copyText(ideas[+cp.dataset.copyidea]); }
+  if(del){ ideas.splice(+del.dataset.delidea,1); store.set("fe_ideas", ideas); renderIdeas(); }
+});
+
+/* ===================== HOME ===================== */
+function renderHome(){
+  $("#st-planned").textContent = posts.filter(p=>p.status!=="posted").length;
+  $("#st-posted").textContent = posts.filter(p=>p.status==="posted").length;
+  $("#st-images").textContent = images.length;
+  $("#st-ideas").textContent = ideas.length;
+  const next = posts.filter(p=>p.status!=="posted").slice(0,3);
+  $("#home-next").innerHTML = next.length ? next.map(p=>postRow(p)).join("")
+    : `<p class="muted">Nothing scheduled. Build your first post in Create → Calendar.</p>`;
+}
+
+function renderAll(){
+  renderHome(); refreshImageSelect(); renderCal(); renderCalList();
+  renderGallery(); renderIdeas(); renderHooks();
+}
+
+/* ===================== INIT ===================== */
+const t = new Date(); $("#sc-date").value = t.toISOString().slice(0,10);
+calMonth = new Date(t.getFullYear(), t.getMonth(), 1);
+renderAll();
+</script>
+</body>
+</html>
