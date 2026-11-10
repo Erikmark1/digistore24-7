@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pin Kit — Digistore24/7 (private)</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d1f45'/><text y='.9em' x='50%25' text-anchor='middle' font-size='60'>📌</text></svg>">
+<style>
+  :root{--navy:#0d1f45;--navy-deep:#091630;--navy-soft:#132a58;--gold:#FFC32B;--muted:#93a1c0;--line:rgba(147,161,192,.22)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#e8edf8;background:linear-gradient(180deg,var(--navy-deep) 0%,#0a1b3d 40%,var(--navy) 100%);min-height:100vh;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+  header{position:sticky;top:0;z-index:50;background:rgba(9,22,48,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .header-in{display:flex;align-items:center;justify-content:space-between;height:60px;gap:14px}
+  .logo{font-weight:800;font-size:16px}
+  .logo b{color:var(--gold)}
+  .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;border:none}
+  .btn-gold{background:var(--gold);color:#231a02;box-shadow:0 6px 18px rgba(255,195,43,.25)}
+  .btn-ghost{background:transparent;color:#e8edf8;border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .btn-sm{padding:8px 14px;font-size:12.5px;border-radius:999px}
+  .hero{padding:40px 0 8px}
+  h1{font-size:clamp(26px,4vw,38px);font-weight:800;margin-bottom:8px}
+  .tag{display:inline-flex;font-size:12px;font-weight:800;color:var(--gold);border:1px solid rgba(255,195,43,.4);border-radius:999px;padding:5px 12px;background:rgba(255,195,43,.07);margin-left:10px;vertical-align:middle}
+  .lead{color:var(--muted);font-size:15px;max-width:640px}
+  .howto{background:var(--navy-soft);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin:22px 0 8px;font-size:14.5px}
+  .howto b{color:var(--gold)}
+  .howto ol{margin:8px 0 0 20px}
+  .howto li{margin-bottom:5px}
+  .card{display:grid;grid-template-columns:300px 1fr;gap:22px;background:var(--navy-soft);border:1px solid var(--line);border-radius:20px;padding:20px;margin:18px 0}
+  .canvas-box{position:relative}
+  canvas{width:100%;border-radius:14px;display:block;background:#0a1b3d;border:1px solid var(--line)}
+  .stat{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:center}
+  .p-title{font-size:18px;font-weight:800;margin-bottom:6px}
+  .p-desc{font-size:14px;color:var(--muted);margin-bottom:12px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .linkline{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .linkline b{color:#e8edf8;font-weight:600}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0 4px}
+  footer{border-top:1px solid var(--line);background:rgba(9,22,48,.7);padding:22px 0;font-size:13px;color:var(--muted);text-align:center;margin-top:40px}
+  footer a{color:#e8edf8}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--gold);color:#231a02;font-weight:800;font-size:13.5px;padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:99}
+  .toast.on{opacity:1}
+  @media(max-width:760px){.card{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap header-in">
+  <a class="logo" href="/">🛒 Digistore<b>24/7</b> <span class="tag">PIN KIT — PRIVATE</span></a>
+  <button class="btn btn-gold" id="dlall">⬇ Download all ready pins</button>
+</div></header>
+<main class="wrap">
+  <div class="hero">
+    <h1>📌 10 ready-to-pin images</h1>
+    <p class="lead">Each card has a vertical pin image with your branding stamped on, the title and description to paste, and the link to set. Matches the organic traffic playbook.</p>
+  </div>
+  <div class="howto">
+    <b>How to pin (2 min each):</b>
+    <ol>
+      <li><b>Download</b> the pin image from the card. Images generate one by one on the free image service (≈1 image / 45 s) — after the first pass they load instantly.</li>
+      <li>Pinterest → <b>Create → Create Pin</b> → upload the image.</li>
+      <li>Paste the <b>title</b> and <b>description</b> from the card, set the <b>destination link</b>, publish.</li>
+    </ol>
+    <p style="margin-top:8px">Tip: space pins 2–3 days apart — Pinterest rewards consistency, not batches. Use 🎲 if you want a different look before downloading.</p>
+  </div>
+  <div id="kit"></div>
+</main>
+<footer>Digistore24/7 pin kit · <a href="/">Shop</a> · <a href="/free.html">Free hooks</a></footer>
+<div class="toast" id="toast">Copied ✓</div>
+<script>
+var SHOP = "https://digistore24-7.netlify.app/";
+var PINS = [
+  { n: 1, seed: 101, title: "12 Faceless Digital Products You Can Start With Today", desc: "Explore a full shop of faceless digital products for camera-shy creators — guides, playbooks, hooks and courses from $7. Instant download.", prompt: "elegant dark navy blue flat lay with a smartphone showing a luxury online shop grid, gold accents, soft studio light, product cards glowing, photorealistic, no text, no words, no letters" },
+  { n: 2, seed: 202, title: "Start a Faceless Digital Business for $7", desc: "The famous $7 door — explore the entire faceless digital products shop and start with the cheapest guide. Instant download.", prompt: "a glowing golden door standing open in a dark navy room, light rays, minimal, cinematic, symbol of opportunity, no text, no words" },
+  { n: 3, seed: 303, title: "28-Day Content Plan You Don't Have to Think About", desc: "A 28-day reels challenge for introverted creators — wake up, open, post. Faceless content, instant delivery.", prompt: "clean minimal desk calendar with gold accents on dark navy background, morning coffee, aesthetic workspace, top view, no text, no words, no letters" },
+  { n: 4, seed: 404, title: "100+ Proven Hooks for Reels and TikTok", desc: "Your first 3 seconds decide everything — grab the Hook Playbook with 100+ proven faceless hooks.", prompt: "golden fishing hook on dark navy background with subtle light rays, minimal luxury 3d render, symbol of attention, no text, no words" },
+  { n: 5, seed: 505, title: "TikTok Marketing Without Showing Your Face", desc: "The full faceless TikTok method start to finish — for camera-shy creators.", prompt: "hand holding smartphone with glowing play button, dark navy and gold aesthetic, faceless content concept, neon accents, no text, no words" },
+  { n: 6, seed: 606, title: "How to Sell Digital Products on Pinterest and Etsy", desc: "The two platforms where faceless content actually thrives — set up once, sells for you.", prompt: "vertical mood board with lifestyle photos pinned on a board, warm aesthetic, dark navy and gold tones, e-commerce concept, no text, no words, no letters" },
+  { n: 7, seed: 707, title: "Copy. Paste. Post. 100 Ready-Made Reels", desc: "Claim 100 REELS — hooks and captions ready to post. Perfect for lazy-day content.", prompt: "neat stack of glowing content cards floating in dark navy space, gold light, organized system concept, 3d render, no text, no words" },
+  { n: 8, seed: 808, title: "YouTube Automation, No Face Needed", desc: "Faceless YouTube automation explained start to finish — channel setup plus monetization.", prompt: "cinematic dark navy workspace with laptop showing glowing play button, automation concept, gold accents, no text, no words, no letters" },
+  { n: 9, seed: 909, title: "Digital Marketing in One Sitting", desc: "A 3-hour audio + video mini course you can finish in an afternoon. Beginner-friendly.", prompt: "premium headphones on a dark navy desk next to a laptop, cozy learning atmosphere, golden hour light, minimal, no text, no words" },
+  { n: 10, seed: 1010, title: "0 Followers to First IG Sale", desc: "The Instagram growth and sales blueprint — growth plus sales, not just likes.", prompt: "rising golden arrow graph over dark navy cityscape at night, success concept, glowing lines, cinematic, no text, no words" }
+];
+var kit = document.getElementById("kit");
+function pinUrl(p, bump) {
+  return "https://image.pollinations.ai/prompt/" + encodeURIComponent(p.prompt) + "?width=1000&height=1500&seed=" + (p.seed + (bump || 0)) + "&nologo=true&model=flux";
+}
+function toast() {
+  var t = document.getElementById("toast"); t.classList.add("on");
+  setTimeout(function () { t.classList.remove("on"); }, 1400);
+}
+function copyText(txt) {
+  var done = function () { toast(); };
+  var fallback = function () {
+    var ta = document.createElement("textarea"); ta.value = txt;
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done, fallback);
+  } else { fallback(); }
+}
+function wrapLines(ctx, text, maxW) {
+  var words = text.split(" ");
+  var lines = []; var cur = "";
+  for (var i = 0; i < words.length; i++) {
+    var test = cur ? cur + " " + words[i] : words[i];
+    if (ctx.measureText(test).width > maxW && cur) { lines.push(cur); cur = words[i]; }
+    else { cur = test; }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+function drawPin(cv, img, title) {
+  var ctx = cv.getContext("2d");
+  var W = 1000, H = 1500;
+  var iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+  var s = Math.max(W / iw, H / ih);
+  var dw = iw * s, dh = ih * s;
+  ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+  ctx.fillStyle = "rgba(9,22,48,0.22)";
+  ctx.fillRect(0, 0, W, H);
+  var grd = ctx.createLinearGradient(0, H * 0.45, 0, H);
+  grd.addColorStop(0, "rgba(9,22,48,0)");
+  grd.addColorStop(1, "rgba(9,22,48,0.94)");
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, H * 0.45, W, H * 0.55);
+  ctx.fillStyle = "#FFC32B";
+  ctx.beginPath();
+  ctx.font = "800 30px 'Segoe UI', Arial, sans-serif";
+  var bw = ctx.measureText("DIGISTORE24/7").width + 44;
+  if (ctx.roundRect) { ctx.roundRect(48, 48, bw, 58, 29); } else { ctx.rect(48, 48, bw, 58); }
+  ctx.fill();
+  ctx.fillStyle = "#231a02";
+  ctx.textBaseline = "middle";
+  ctx.fillText("DIGISTORE24/7", 70, 78);
+  ctx.textBaseline = "alphabetic";
+  ctx.font = "800 58px 'Segoe UI', Arial, sans-serif";
+  var lines = wrapLines(ctx, title, W - 192);
+  var ty = H - 320 - (lines.length - 1) * 68;
+  ctx.shadowColor = "rgba(0,0,0,0.55)";
+  ctx.shadowBlur = 14;
+  ctx.fillStyle = "#ffffff";
+  for (var i = 0; i < lines.length; i++) {
+    ctx.fillText(lines[i], 96, ty + i * 68);
+  }
+  ctx.shadowBlur = 0;
+  ctx.font = "800 36px 'Segoe UI', Arial, sans-serif";
+  var pt = "Open 24/7 · from $7";
+  var pw = ctx.measureText(pt).width + 60;
+  ctx.fillStyle = "#FFC32B";
+  ctx.beginPath();
+  if (ctx.roundRect) { ctx.roundRect((W - pw) / 2, H - 210, pw, 62, 31); } else { ctx.rect((W - pw) / 2, H - 210, pw, 62); }
+  ctx.fill();
+  ctx.fillStyle = "#231a02";
+  ctx.textBaseline = "middle";
+  ctx.fillText(pt, (W - pw) / 2 + 30, H - 179);
+  ctx.textBaseline = "alphabetic";
+  ctx.font = "600 27px 'Segoe UI', Arial, sans-serif";
+  ctx.fillStyle = "rgba(255,255,255,0.88)";
+  var ut = "digistore24-7.netlify.app";
+  ctx.fillText(ut, (W - ctx.measureText(ut).width) / 2, H - 104);
+}
+var queue = [];
+var busy = false;
+function enqueue(task) { queue.push(task); setTimeout(pump, 0); }
+function pump() {
+  if (busy || !queue.length) { return; }
+  busy = true;
+  var task = queue.shift();
+  task(function () { busy = false; setTimeout(pump, 1200); });
+}
+PINS.forEach(function (p) {
+  var card = document.createElement("div"); card.className = "card";
+  var box = document.createElement("div"); box.className = "canvas-box";
+  var cv = document.createElement("canvas"); cv.width = 1000; cv.height = 1500;
+  var stat = document.createElement("div"); stat.className = "stat";
+  stat.textContent = "In queue — images load one by one (free tier ≈ 1 image / 45 s).";
+  box.appendChild(cv); box.appendChild(stat);
+  var meta = document.createElement("div");
+  var t = document.createElement("div"); t.className = "p-title"; t.textContent = p.n + ". " + p.title;
+  var d = document.createElement("div"); d.className = "p-desc"; d.textContent = p.desc;
+  var link = document.createElement("div"); link.className = "linkline";
+  link.innerHTML = "Destination link: <b>" + SHOP + "</b> (same for all pins)";
+  var row = document.createElement("div"); row.className = "row";
+  var bDl = document.createElement("button"); bDl.className = "btn btn-gold btn-sm dl"; bDl.textContent = "⬇ Download pin"; bDl.style.display = "none";
+  var bReroll = document.createElement("button"); bReroll.className = "btn btn-ghost btn-sm"; bReroll.textContent = "🎲 Another look";
+  var bT = document.createElement("button"); bT.className = "btn btn-ghost btn-sm"; bT.textContent = "📋 Copy title";
+  var bD = document.createElement("button"); bD.className = "btn btn-ghost btn-sm"; bD.textContent = "📋 Copy description";
+  var bL = document.createElement("button"); bL.className = "btn btn-ghost btn-sm"; bL.textContent = "📋 Copy link";
+  bT.addEventListener("click", function () { copyText(p.title); });
+  bD.addEventListener("click", function () { copyText(p.desc); });
+  bL.addEventListener("click", function () { copyText(SHOP); });
+  row.appendChild(bDl); row.appendChild(bReroll); row.appendChild(bT); row.appendChild(bD); row.appendChild(bL);
+  meta.appendChild(t); meta.appendChild(d); meta.appendChild(link); meta.appendChild(row);
+  card.appendChild(box); card.appendChild(meta);
+  kit.appendChild(card);
+  var bump = 0;
+  function loadPin(b, done) {
+    var url = pinUrl(p, b);
+    stat.textContent = "Generating... (free tier ≈ 1 image / 45 s)";
+    function attempt(n) {
+      fetch(url, { cache: "default" }).then(function (r) {
+        if (!r.ok) { throw { retry: true, status: r.status }; }
+        return r.blob();
+      }).then(function (blob) {
+        if (blob.type.indexOf("image/") !== 0) { throw { retry: true }; }
+        return new Promise(function (res, rej) {
+          var img = new Image();
+          img.onload = function () { res(img); };
+          img.onerror = function () { rej({ retry: true }); };
+          img.src = URL.createObjectURL(blob);
+        });
+      }).then(function (img) {
+        try {
+          drawPin(cv, img, p.title);
+          stat.textContent = "Ready — download below. (seed " + (p.seed + b) + ")";
+          bDl.style.display = "inline-flex";
+        } catch (e) {
+          stat.textContent = "Image loaded — right-click the canvas to save if the button fails.";
+        }
+        done();
+      }).catch(function (err) {
+        var left = 46;
+        stat.textContent = "Free image limit hit — retrying in " + left + " s...";
+        var iv = setInterval(function () {
+          left--;
+          if (left <= 0) { clearInterval(iv); attempt(n + 1); }
+          else { stat.textContent = "Free image limit hit — retrying in " + left + " s..."; }
+        }, 1000);
+      });
+    }
+    attempt(0);
+  }
+  enqueue(function (done) { loadPin(bump, done); });
+  bReroll.addEventListener("click", function () {
+    bump += 517;
+    bDl.style.display = "none";
+    stat.textContent = "In queue — a new look will generate after the current task.";
+    enqueue(function (done) { loadPin(bump, done); });
+  });
+  bDl.addEventListener("click", function () {
+    try {
+      cv.toBlob(function (blob) {
+        if (!blob) { toast(); return; }
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "pin-" + (p.n < 10 ? "0" + p.n : p.n) + ".jpg";
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      }, "image/jpeg", 0.92);
+    } catch (e) {
+      stat.textContent = "Download blocked — right-click the image to save instead.";
+    }
+  });
+});
+document.getElementById("dlall").addEventListener("click", function () {
+  var btns = document.querySelectorAll(".dl");
+  var i = 0;
+  var tick = function () {
+    if (i >= btns.length) { return; }
+    var b = btns[i];
+    if (b.style.display !== "none") { b.click(); }
+    i++;
+    setTimeout(tick, 1200);
+  };
+  tick();
+});
+</script>
+</body>
+</html>
