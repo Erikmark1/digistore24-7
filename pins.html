@@ -49,7 +49,7 @@
 <body>
 <header><div class="wrap header-in">
   <a class="logo" href="/">🛒 Digistore<b>24/7</b> <span class="tag">PIN KIT — PRIVATE</span></a>
-  <button class="btn btn-gold" id="dlall">⬇ Download all ready pins</button>
+  <button class="btn btn-gold" id="dlall">⬇ Download all as ZIP</button>
 </div></header>
 <main class="wrap">
   <div class="hero">
@@ -257,18 +257,99 @@ PINS.forEach(function (p) {
     }
   });
 });
-document.getElementById("dlall").addEventListener("click", function () {
-  var btns = document.querySelectorAll(".dl");
-  var i = 0;
-  var tick = function () {
-    if (i >= btns.length) { return; }
-    var b = btns[i];
-    if (b.style.display !== "none") { b.click(); }
-    i++;
-    setTimeout(tick, 1200);
-  };
-  tick();
+document.getElementById("dlall").addEventListener("click", async function () {
+  var btn = this;
+  btn.textContent = "⏳ Packing...";
+  btn.disabled = true;
+  try {
+    var canvases = document.querySelectorAll("canvas");
+    var files = [];
+    for (var i = 0; i < canvases.length; i++) {
+      var card = canvases[i].closest(".card");
+      var stat = card.querySelector(".stat");
+      if (!stat || stat.textContent.indexOf("Ready") !== 0) { continue; }
+      var blob = await new Promise(function (res) { canvases[i].toBlob(res, "image/jpeg", 0.92); });
+      if (!blob) { continue; }
+      var u8 = new Uint8Array(await blob.arrayBuffer());
+      var idx = files.length + 1;
+      files.push({ name: "pin-" + (idx < 10 ? "0" + idx : idx) + ".jpg", u8: u8 });
+    }
+    if (!files.length) { btn.textContent = "No ready pins yet"; btn.disabled = false; return; }
+    var zip = makeZip(files);
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(zip);
+    a.download = "digistore-shop-pins.zip";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 6000);
+    btn.textContent = "⬇ Download all as ZIP";
+    btn.disabled = false;
+  } catch (e) {
+    btn.textContent = "ZIP failed — use card buttons";
+    btn.disabled = false;
+  }
 });
+var __crct = null;
+function crc32(buf) {
+  if (!__crct) {
+    __crct = new Uint32Array(256);
+    for (var n = 0; n < 256; n++) {
+      var c = n;
+      for (var k = 0; k < 8; k++) { c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); }
+      __crct[n] = c >>> 0;
+    }
+  }
+  var c2 = 0 ^ (-1);
+  for (var i2 = 0; i2 < buf.length; i2++) { c2 = (c2 >>> 8) ^ __crct[(c2 ^ buf[i2]) & 0xFF]; }
+  return (c2 ^ (-1)) >>> 0;
+}
+function makeZip(files) {
+  var enc = new TextEncoder();
+  var chunks = [], central = [], offset = 0;
+  files.forEach(function (f) {
+    var name = enc.encode(f.name);
+    var crc = crc32(f.u8);
+    var local = new Uint8Array(30 + name.length);
+    var dv = new DataView(local.buffer);
+    dv.setUint32(0, 0x04034b50, true);
+    dv.setUint16(4, 20, true);
+    dv.setUint16(6, 0x0800, true);
+    dv.setUint16(10, 0, true); dv.setUint16(12, 0, true);
+    dv.setUint32(14, crc, true);
+    dv.setUint32(18, f.u8.length, true);
+    dv.setUint32(22, f.u8.length, true);
+    dv.setUint16(26, name.length, true);
+    dv.setUint16(28, 0, true);
+    local.set(name, 30);
+    chunks.push(local); chunks.push(f.u8);
+    central.push({ name: name, crc: crc, size: f.u8.length, offset: offset });
+    offset += local.length + f.u8.length;
+  });
+  var cdStart = offset, cdSize = 0;
+  central.forEach(function (e) {
+    var h = new Uint8Array(46 + e.name.length);
+    var dv = new DataView(h.buffer);
+    dv.setUint32(0, 0x02014b50, true);
+    dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+    dv.setUint16(8, 0x0800, true);
+    dv.setUint32(16, e.crc, true);
+    dv.setUint32(20, e.size, true);
+    dv.setUint32(24, e.size, true);
+    dv.setUint16(28, e.name.length, true);
+    dv.setUint32(42, e.offset, true);
+    h.set(e.name, 46);
+    chunks.push(h);
+    cdSize += h.length;
+  });
+  var eocd = new Uint8Array(22);
+  var dv2 = new DataView(eocd.buffer);
+  dv2.setUint32(0, 0x06054b50, true);
+  dv2.setUint16(8, files.length, true);
+  dv2.setUint16(10, files.length, true);
+  dv2.setUint32(12, cdSize, true);
+  dv2.setUint32(16, cdStart, true);
+  chunks.push(eocd);
+  return new Blob(chunks, { type: "application/zip" });
+}
 </script>
 </body>
 </html>
