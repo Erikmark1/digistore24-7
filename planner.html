@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2027 Budget Planner</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d1f45'/><text y='.9em' x='50%25' text-anchor='middle' font-size='60'>💰</text></svg>">
+<style>
+  :root{--navy:#0d1f45;--navy-deep:#091630;--navy-soft:#132a58;--gold:#FFC32B;--muted:#93a1c0;--line:rgba(147,161,192,.22);--good:#3ecf8e;--bad:#ff7a7a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#e8edf8;background:linear-gradient(180deg,var(--navy-deep) 0%,#0a1b3d 40%,var(--navy) 100%);min-height:100vh;line-height:1.5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  header{position:sticky;top:0;z-index:50;background:rgba(9,22,48,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .header-in{display:flex;align-items:center;justify-content:space-between;gap:10px;height:58px}
+  .logo{font-weight:800;font-size:15.5px}
+  .logo b{color:var(--gold)}
+  .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;font-weight:700;font-size:13.5px;cursor:pointer;border:none;font-family:inherit}
+  .btn-gold{background:var(--gold);color:#231a02;box-shadow:0 6px 16px rgba(255,195,43,.22)}
+  .btn-ghost{background:transparent;color:#e8edf8;border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .btn-sm{padding:6px 12px;font-size:12px}
+  nav.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap;padding:8px 15px;border-radius:999px;font-size:13px;font-weight:700;color:var(--muted);background:transparent;border:1px solid transparent;cursor:pointer;font-family:inherit}
+  .tab.on{color:#231a02;background:var(--gold)}
+  .tab:hover:not(.on){color:#e8edf8;border-color:var(--line)}
+  section{display:none;padding:18px 0 60px}
+  section.active{display:block}
+  h1{font-size:clamp(22px,3.5vw,30px);font-weight:800;margin-bottom:4px}
+  h2{font-size:17px;font-weight:800;margin:22px 0 10px}
+  .sub{color:var(--muted);font-size:13.5px;margin-bottom:16px}
+  .card{background:var(--navy-soft);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .kpi{background:var(--navy-soft);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .kpi .lbl{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .kpi .val{font-size:21px;font-weight:800;margin-top:2px}
+  .kpi .val.gold{color:var(--gold)}
+  .kpi .val.good{color:var(--good)}
+  .kpi .val.bad{color:var(--bad)}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  td{padding:5px 8px;border-bottom:1px solid rgba(147,161,192,.12);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  input[type=text],input[type=number]{width:100%;background:rgba(9,22,48,.6);border:1px solid var(--line);border-radius:9px;color:#e8edf8;padding:8px 10px;font-size:14px;font-family:inherit}
+  input[type=text]:focus,input[type=number]:focus{outline:none;border-color:var(--gold)}
+  input[type=number]{text-align:right}
+  input.narrow{max-width:110px}
+  .amt{font-variant-numeric:tabular-nums}
+  .rowbtn{background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;padding:4px 7px;border-radius:8px}
+  .rowbtn:hover{color:var(--bad);background:rgba(255,122,122,.08)}
+  .add{margin-top:10px}
+  .bar{height:9px;border-radius:999px;background:rgba(9,22,48,.7);border:1px solid var(--line);overflow:hidden;margin-top:7px}
+  .bar>i{display:block;height:100%;background:linear-gradient(90deg,#e0a800,var(--gold));border-radius:999px}
+  .bar>i.ok{background:linear-gradient(90deg,#2aa06d,var(--good))}
+  select{background:rgba(9,22,48,.6);border:1px solid var(--line);border-radius:999px;color:#e8edf8;padding:8px 14px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+  select:focus{outline:none;border-color:var(--gold)}
+  .totline{display:flex;justify-content:space-between;gap:10px;padding:9px 4px;font-size:14.5px;border-top:1px solid var(--line);font-weight:700}
+  .totline span:last-child{font-variant-numeric:tabular-nums}
+  .totline.big{font-size:17px}
+  .totline .gold{color:var(--gold)}
+  .totline .good{color:var(--good)}
+  .totline .bad{color:var(--bad)}
+  .mcard{background:var(--navy-soft);border:1px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;transition:border-color .15s}
+  .mcard:hover{border-color:var(--gold)}
+  .mcard .mn{font-weight:800;font-size:14px;margin-bottom:6px}
+  .mcard .r{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+  .mcard .r b{color:#e8edf8;font-variant-numeric:tabular-nums;font-weight:700}
+  .chart{display:flex;align-items:flex-end;gap:7px;height:120px;margin:16px 0 4px}
+  .chart .cbar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;cursor:pointer}
+  .chart .cbar>i{display:block;background:linear-gradient(180deg,var(--gold),#c79200);border-radius:6px 6px 2px 2px;min-height:3px}
+  .chart .cbar span{text-align:center;font-size:9.5px;color:var(--muted);margin-top:5px}
+  .steps{counter-reset:s}
+  .steps li{list-style:none;counter-increment:s;margin:9px 0;font-size:14.5px;padding-left:36px;position:relative}
+  .steps li:before{content:counter(s);position:absolute;left:0;top:1px;width:25px;height:25px;border-radius:50%;background:var(--gold);color:#231a02;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+  textarea{width:100%;min-height:70px;background:rgba(9,22,48,.6);border:1px solid var(--line);border-radius:10px;color:#e8edf8;padding:10px 12px;font-size:14px;font-family:inherit;resize:vertical}
+  textarea:focus{outline:none;border-color:var(--gold)}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .danger{color:var(--bad)}
+  footer{border-top:1px solid var(--line);background:rgba(9,22,48,.7);padding:18px 0;font-size:12.5px;color:var(--muted);text-align:center}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--gold);color:#231a02;font-weight:800;font-size:13px;padding:9px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:99}
+  .toast.on{opacity:1}
+  .billgrid td{text-align:center}
+  .billgrid input[type=checkbox]{width:17px;height:17px;accent-color:#FFC32B;cursor:pointer}
+  .billgrid td:first-child{text-align:left}
+  .billgrid td:nth-child(2),.billgrid td:nth-child(3){text-align:right}
+  @media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 1fr}}
+  @media print{
+    body{background:#fff;color:#111}
+    header,nav.tabs,.no-print,footer,.toast{display:none!important}
+    section{display:none!important;padding:0}
+    section.active{display:block!important}
+    .card,.kpi{background:#fff;border-color:#ccc;color:#111;border-radius:8px;box-shadow:none}
+    input,textarea,select{border-color:#bbb;background:#fff;color:#111}
+    th,td{border-color:#ddd;color:#111}
+    .kpi .val,.kpi .lbl,.mcard .r,td,th{color:#111!important}
+    h1,h2,.mn{color:#0d1f45}
+    .totline{border-color:#ccc;color:#111}
+  }
+</style>
+</head>
+<body>
+<header><div class="wrap header-in">
+  <div class="logo">💰 2027 <b>Budget Planner</b></div>
+  <button class="btn btn-ghost btn-sm no-print" onclick="window.print()">🖨 Print / PDF</button>
+</div></header>
+<main class="wrap">
+  <nav class="tabs no-print" id="tabs">
+    <button class="tab on" data-tab="dash">📊 Dashboard</button>
+    <button class="tab" data-tab="month">🗓 Monthly budget</button>
+    <button class="tab" data-tab="goals">🎯 Savings goals</button>
+    <button class="tab" data-tab="debt">📉 Debt payoff</button>
+    <button class="tab" data-tab="bills">🧾 Bills</button>
+    <button class="tab" data-tab="settings">⚙️ Settings</button>
+  </nav>
+
+  <section id="tab-dash" class="active">
+    <h1>Your year, planned.</h1>
+    <p class="sub">A quick look at all of 2027. Tap any month to open its budget.</p>
+    <div class="card steps-card">
+      <div class="grid3">
+        <div class="kpi"><div class="lbl">Planned income</div><div class="val gold" id="k-inc">—</div></div>
+        <div class="kpi"><div class="lbl">Planned expenses</div><div class="val" id="k-exp">—</div></div>
+        <div class="kpi"><div class="lbl">Planned savings</div><div class="val good" id="k-sav">—</div></div>
+      </div>
+    </div>
+    <div class="chart no-print" id="chart"></div>
+    <div id="mdash"></div>
+    <div class="card">
+      <h2 style="margin-top:0">How to use your planner</h2>
+      <ol class="steps">
+        <li><b>Monthly budget</b> — pick a month, set planned amounts for every income and expense, then type actuals as you spend.</li>
+        <li><b>Savings goals &amp; debt</b> — set targets and update them whenever you save or pay down.</li>
+        <li><b>Bills</b> — add each bill and tick it off per month, so nothing sneaks up on you.</li>
+        <li><b>Print / PDF</b> — any page can be printed or saved as PDF. Everything saves automatically on this device.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="tab-month">
+    <h1>Monthly budget</h1>
+    <p class="sub">Plan first, then track. Green means you're under budget.</p>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <select id="msel"></select>
+      <button class="btn btn-ghost btn-sm" id="mdup">⧉ Copy from previous month</button>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h2 style="margin-top:0">Income</h2>
+        <table id="tinc"></table>
+        <button class="btn btn-ghost btn-sm add" data-add="income">+ Add income</button>
+      </div>
+      <div class="card">
+        <h2 style="margin-top:0">Expenses</h2>
+        <table id="texp"></table>
+        <button class="btn btn-ghost btn-sm add" data-add="expenses">+ Add expense</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="totline big"><span>Left to budget (planned income − planned expenses)</span><span id="m-ltb">—</span></div>
+      <div class="totline"><span>Actual income</span><span id="m-ai">—</span></div>
+      <div class="totline"><span>Actual expenses</span><span id="m-ae">—</span></div>
+      <div class="totline big"><span>Kept this month (actual income − actual expenses)</span><span id="m-kept">—</span></div>
+      <p class="hint" id="m-note-hint"></p>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">Notes for this month</h2>
+      <textarea id="m-notes" placeholder="What worked? What blew the budget? Notes for next month..."></textarea>
+    </div>
+  </section>
+
+  <section id="tab-goals">
+    <h1>Savings goals</h1>
+    <p class="sub">Name it, target it, fill it up.</p>
+    <div id="goals"></div>
+    <button class="btn btn-gold btn-sm add" data-add="goals">+ New goal</button>
+  </section>
+
+  <section id="tab-debt">
+    <h1>Debt payoff</h1>
+    <p class="sub">Update the remaining balance as you pay — watch the bars fill the other way.</p>
+    <div id="debts"></div>
+    <button class="btn btn-gold btn-sm add" data-add="debts">+ New debt</button>
+  </section>
+
+  <section id="tab-bills">
+    <h1>Bill tracker</h1>
+    <p class="sub">Tick each bill as paid, month by month. Amounts show once on the left.</p>
+    <div class="card" style="overflow-x:auto">
+      <table class="billgrid" id="tbills"></table>
+      <button class="btn btn-ghost btn-sm add" data-add="bills">+ Add bill</button>
+    </div>
+  </section>
+
+  <section id="tab-settings">
+    <h1>Settings</h1>
+    <p class="sub">Your data lives only on this device. Back it up any time.</p>
+    <div class="card">
+      <div class="grid2">
+        <div>
+          <h2 style="margin-top:0">Your name</h2>
+          <input type="text" id="s-name" placeholder="e.g. Erik">
+        </div>
+        <div>
+          <h2 style="margin-top:0">Currency symbol</h2>
+          <input type="text" id="s-cur" maxlength="3" placeholder="$">
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">Backup &amp; restore</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" id="s-exp">⬇ Export backup file</button>
+        <button class="btn btn-ghost btn-sm" id="s-imp">⬆ Import backup</button>
+        <input type="file" id="s-impf" accept=".json,application/json" style="display:none">
+      </div>
+      <p class="hint">Export saves a .json file you can move to another device or keep as a copy.</p>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0" class="danger">Start over</h2>
+      <p class="hint" style="margin-bottom:10px">Erases all planner data on this device. Export a backup first if you might need it.</p>
+      <button class="btn btn-ghost btn-sm danger" id="s-reset">🗑 Erase everything</button>
+    </div>
+  </section>
+</main>
+<footer>2027 Budget Planner · Works offline · Your data stays on your device · Have a rich 2027 ✨</footer>
+<div class="toast" id="toast">Saved ✓</div>
+<script>
+(function(){
+"use strict";
+var LSKEY = "bplanner2027v1";
+var MKEYS = [], MNAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+for (var i = 1; i <= 12; i++) { MKEYS.push("2027-" + (i < 10 ? "0" + i : i)); }
+var DEF_EXP = ["Rent / Mortgage","Groceries","Utilities","Transport","Fun money","Savings"];
+
+function blankState(){
+  var s = { currency: "$", name: "", months: {}, goals: [], debts: [], bills: [] };
+  MKEYS.forEach(function(k, idx){
+    var inc = [{ n: "Salary", p: 0, a: 0 }];
+    var exp = DEF_EXP.map(function(n){ return { n: n, b: 0, a: 0 }; });
+    s.months[k] = { income: inc, expenses: exp, notes: "", paid: {} };
+  });
+  s.goals.push({ n: "Emergency fund", t: 5000, s: 0 });
+  s.debts.push({ n: "Credit card", start: 0, cur: 0, pay: 0 });
+  s.bills.push({ n: "Rent / Mortgage", day: 1, amt: 0 });
+  return s;
+}
+var S;
+try { S = JSON.parse(localStorage.getItem(LSKEY) || "null") || blankState(); } catch (e) { S = blankState(); }
+if (!S.months || !S.months["2027-01"]) { S = blankState(); }
+
+function save(){ try { localStorage.setItem(LSKEY, JSON.stringify(S)); } catch (e) {} toastSoon(); }
+var toastT = null;
+function toastSoon(){
+  var t = document.getElementById("toast");
+  t.classList.add("on");
+  if (toastT) clearTimeout(toastT);
+  toastT = setTimeout(function(){ t.classList.remove("on"); }, 1100);
+}
+function fmt(n){
+  n = Number(n) || 0;
+  var neg = n < 0; n = Math.abs(n);
+  var str = n % 1 === 0 ? String(n) : n.toFixed(2);
+  return (neg ? "−" : "") + (S.currency || "$") + str;
+}
+function num(v){ var n = parseFloat(v); return isNaN(n) ? 0 : n; }
+function esc(t){ var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
+function curMonthKey(){ return document.getElementById("msel").value || MKEYS[0]; }
+
+/* ---------- totals ---------- */
+function sum(rows, f){ var t = 0; rows.forEach(function(r){ t += num(r[f]); }); return t; }
+function monthTotals(k){
+  var m = S.months[k];
+  return {
+    pi: sum(m.income, "p"), ai: sum(m.income, "a"),
+    pb: sum(m.expenses, "b"), ae: sum(m.expenses, "a")
+  };
+}
+
+/* ---------- tabs ---------- */
+var tabs = document.getElementById("tabs");
+tabs.addEventListener("click", function(e){
+  var b = e.target.closest(".tab"); if (!b) return;
+  tabs.querySelectorAll(".tab").forEach(function(t){ t.classList.remove("on"); });
+  b.classList.add("on");
+  document.querySelectorAll("section").forEach(function(s){ s.classList.remove("active"); });
+  document.getElementById("tab-" + b.dataset.tab).classList.add("active");
+  window.scrollTo(0, 0);
+  render(b.dataset.tab);
+});
+function render(which){
+  if (!which || which === "dash") renderDash();
+  if (which === "month" || !which) renderMonth();
+  if (which === "goals") renderGoals();
+  if (which === "debt") renderDebts();
+  if (which === "bills") renderBills();
+  if (which === "settings") renderSettings();
+}
+
+/* ---------- dashboard ---------- */
+function renderDash(){
+  var tpi = 0, tpb = 0;
+  var max = 1;
+  MKEYS.forEach(function(k){ var t = monthTotals(k); tpi += t.pi; tpb += t.pb; if (t.pi > max) max = t.pi; });
+  document.getElementById("k-inc").textContent = fmt(tpi);
+  document.getElementById("k-exp").textContent = fmt(tpb);
+  document.getElementById("k-sav").textContent = fmt(tpi - tpb);
+  var chart = document.getElementById("chart"), html = "";
+  MKEYS.forEach(function(k, i){
+    var t = monthTotals(k);
+    var h = Math.round((t.pi / max) * 100);
+    html += '<div class="cbar" data-m="' + k + '" title="' + MNAMES[i] + ": " + fmt(t.pi) + '"><i style="height:' + h + '%"></i><span>' + MNAMES[i] + '</span></div>';
+  });
+  chart.innerHTML = html;
+  var md = document.getElementById("mdash"), out = '<div class="grid3" style="grid-template-columns:repeat(3,1fr)">';
+  MKEYS.forEach(function(k, i){
+    var t = monthTotals(k);
+    var net = t.pi - t.pb;
+    out += '<div class="mcard" data-m="' + k + '"><div class="mn">' + MNAMES[i] + ' 2027</div>' +
+      '<div class="r"><span>Income</span><b>' + fmt(t.pi) + '</b></div>' +
+      '<div class="r"><span>Expenses</span><b>' + fmt(t.pb) + '</b></div>' +
+      '<div class="r"><span>Kept</span><b style="color:' + (net >= 0 ? "var(--good)" : "var(--bad)") + '">' + fmt(net) + '</b></div></div>';
+  });
+  md.innerHTML = out + "</div>";
+}
+document.getElementById("mdash").addEventListener("click", function(e){
+  var c = e.target.closest(".mcard"); if (!c) return;
+  openMonth(c.dataset.m);
+});
+document.getElementById("chart").addEventListener("click", function(e){
+  var c = e.target.closest(".cbar"); if (!c) return;
+  openMonth(c.dataset.m);
+});
+function openMonth(k){
+  tabs.querySelectorAll(".tab").forEach(function(t){ t.classList.toggle("on", t.dataset.tab === "month"); });
+  document.querySelectorAll("section").forEach(function(s){ s.classList.remove("active"); });
+  document.getElementById("tab-month").classList.add("active");
+  document.getElementById("msel").value = k;
+  renderMonth();
+  window.scrollTo(0, 0);
+}
+
+/* ---------- month ---------- */
+function fillMonthSel(){
+  var sel = document.getElementById("msel"), cur = sel.value;
+  var html = "";
+  MKEYS.forEach(function(k, i){ html += '<option value="' + k + '">' + MNAMES[i] + " 2027</option>"; });
+  sel.innerHTML = html;
+  sel.value = MKEYS.indexOf(cur) >= 0 ? cur : MKEYS[0];
+}
+function incRows(k){
+  var m = S.months[k], html = "<tr><th>Source</th><th style='text-align:right'>Planned</th><th style='text-align:right'>Actual</th><th></th></tr>";
+  m.income.forEach(function(r, i){
+    html += "<tr><td><input type='text' value=\"" + esc(r.n) + "\" data-f='income." + i + ".n'></td>" +
+      "<td><input class='narrow' type='number' inputmode='decimal' value='" + r.p + "' data-f='income." + i + ".p'></td>" +
+      "<td><input class='narrow' type='number' inputmode='decimal' value='" + r.a + "' data-f='income." + i + ".a'></td>" +
+      "<td><button class='rowbtn' data-del='income." + i + "' title='Remove'>✕</button></td></tr>";
+  });
+  return html;
+}
+function expRows(k){
+  var m = S.months[k], html = "<tr><th>Category</th><th style='text-align:right'>Budget</th><th style='text-align:right'>Actual</th><th></th></tr>";
+  m.expenses.forEach(function(r, i){
+    html += "<tr><td><input type='text' value=\"" + esc(r.n) + "\" data-f='expenses." + i + ".n'></td>" +
+      "<td><input class='narrow' type='number' inputmode='decimal' value='" + r.b + "' data-f='expenses." + i + ".b'></td>" +
+      "<td><input class='narrow' type='number' inputmode='decimal' value='" + r.a + "' data-f='expenses." + i + ".a'></td>" +
+      "<td><button class='rowbtn' data-del='expenses." + i + "' title='Remove'>✕</button></td></tr>";
+  });
+  return html;
+}
+function renderMonth(){
+  fillMonthSel();
+  var k = curMonthKey();
+  document.getElementById("tinc").innerHTML = incRows(k);
+  document.getElementById("texp").innerHTML = expRows(k);
+  document.getElementById("m-notes").value = S.months[k].notes || "";
+  monthTotalsRefresh();
+}
+function monthTotalsRefresh(){
+  var k = curMonthKey(), t = monthTotals(k);
+  var ltb = t.pi - t.pb, kept = t.ai - t.ae;
+  var e1 = document.getElementById("m-ltb");
+  e1.textContent = fmt(ltb);
+  e1.className = ltb >= 0 ? "gold" : "bad";
+  document.getElementById("m-ai").textContent = fmt(t.ai);
+  document.getElementById("m-ae").textContent = fmt(t.ae);
+  var e4 = document.getElementById("m-kept");
+  e4.textContent = fmt(kept);
+  e4.className = kept >= 0 ? "good" : "bad";
+  document.getElementById("m-note-hint").textContent =
+    ltb >= 0 ? "Every dollar has a job. ✓" : "You planned " + fmt(-ltb) + " more than you expect to earn — trim something.";
+}
+var tabMonth = document.getElementById("tab-month");
+tabMonth.addEventListener("input", function(e){
+  var f = e.target.dataset && e.target.dataset.f; if (!f) return;
+  var k = curMonthKey();
+  var parts = f.split(".");
+  var list = parts[0], idx = +parts[1], field = parts[2];
+  if (field === "n") { S.months[k][list][idx].n = e.target.value; }
+  else { S.months[k][list][idx][field] = num(e.target.value); monthTotalsRefresh(); }
+  save();
+});
+tabMonth.addEventListener("click", function(e){
+  var del = e.target.closest("[data-del]");
+  if (del) {
+    var p = del.dataset.del.split(".");
+    S.months[curMonthKey()][p[0]].splice(+p[1], 1);
+    save(); renderMonth(); return;
+  }
+  var add = e.target.closest("[data-add]");
+  if (add) {
+    var list = add.dataset.add;
+    var k = curMonthKey();
+    if (list === "income") S.months[k].income.push({ n: "", p: 0, a: 0 });
+    else S.months[k].expenses.push({ n: "", b: 0, a: 0 });
+    save(); renderMonth();
+  }
+});
+document.getElementById("m-notes").addEventListener("input", function(){ S.months[curMonthKey()].notes = this.value; save(); });
+document.getElementById("msel").addEventListener("change", renderMonth);
+document.getElementById("mdup").addEventListener("click", function(){
+  var k = curMonthKey(), i = MKEYS.indexOf(k);
+  if (i === 0) { alert("January is the first month — it's already fresh."); return; }
+  var prev = JSON.parse(JSON.stringify(S.months[MKEYS[i - 1]]));
+  var notes = S.months[k].notes, paid = S.months[k].paid;
+  prev.notes = notes || ""; prev.paid = paid || {};
+  S.months[k] = prev;
+  save(); renderMonth();
+});
+
+/* ---------- goals ---------- */
+function renderGoals(){
+  var html = "";
+  S.goals.forEach(function(g, i){
+    var pct = g.t > 0 ? Math.min(100, Math.round((num(g.s) / num(g.t)) * 100)) : 0;
+    html += '<div class="card"><div class="grid2"><div>' +
+      '<input type="text" value="' + esc(g.n) + '" data-gf="' + i + '.n" placeholder="Goal name">' +
+      '<div class="hint">' + fmt(g.s) + ' of ' + fmt(g.t) + ' (' + pct + '%)</div>' +
+      '<div class="bar"><i class="ok" style="width:' + pct + '%"></i></div>' +
+      '</div><div class="grid2">' +
+      '<div><div class="hint">Target</div><input class="narrow" type="number" inputmode="decimal" value="' + g.t + '" data-gf="' + i + '.t"></div>' +
+      '<div><div class="hint">Saved so far</div><input class="narrow" type="number" inputmode="decimal" value="' + g.s + '" data-gf="' + i + '.s"></div>' +
+      '</div><button class="rowbtn" data-gdel="' + i + '" title="Delete goal" style="position:absolute">✕</button></div></div>';
+  });
+  var el = document.getElementById("goals");
+  el.innerHTML = html || '<p class="hint" style="margin-bottom:10px">No goals yet — add your first one below.</p>';
+}
+document.getElementById("tab-goals").addEventListener("input", function(e){
+  var f = e.target.dataset && e.target.dataset.gf; if (!f) return;
+  var p = f.split("."), i = +p[0], fl = p[1];
+  S.goals[i][fl] = fl === "n" ? e.target.value : num(e.target.value);
+  save(); if (fl !== "n") renderGoals();
+});
+document.getElementById("tab-goals").addEventListener("click", function(e){
+  if (e.target.closest("[data-gdel]")) { S.goals.splice(+e.target.closest("[data-gdel]").dataset.gdel, 1); save(); renderGoals(); return; }
+  if (e.target.closest("[data-add='goals']")) { S.goals.push({ n: "", t: 0, s: 0 }); save(); renderGoals(); }
+});
+
+/* ---------- debts ---------- */
+function renderDebts(){
+  var html = "";
+  S.debts.forEach(function(d, i){
+    var paidpct = d.start > 0 ? Math.min(100, Math.round(((num(d.start) - num(d.cur)) / num(d.start)) * 100)) : 0;
+    html += '<div class="card"><div class="grid2"><div>' +
+      '<input type="text" value="' + esc(d.n) + '" data-df="' + i + '.n" placeholder="Debt name">' +
+      '<div class="hint">' + fmt(Math.max(0, num(d.start) - num(d.cur))) + ' paid off (' + paidpct + '%)</div>' +
+      '<div class="bar"><i style="width:' + paidpct + '%"></i></div>' +
+      '</div><div class="grid3">' +
+      '<div><div class="hint">Starting balance</div><input class="narrow" type="number" inputmode="decimal" value="' + d.start + '" data-df="' + i + '.start"></div>' +
+      '<div><div class="hint">Remaining</div><input class="narrow" type="number" inputmode="decimal" value="' + d.cur + '" data-df="' + i + '.cur"></div>' +
+      '<div><div class="hint">Payment / mo</div><input class="narrow" type="number" inputmode="decimal" value="' + d.pay + '" data-df="' + i + '.pay"></div>' +
+      '</div><button class="rowbtn" data-ddel="' + i + '" title="Delete debt">✕</button></div></div>';
+  });
+  var el = document.getElementById("debts");
+  el.innerHTML = html || '<p class="hint" style="margin-bottom:10px">No debts tracked — that\'s the dream. Add one below if needed.</p>';
+}
+document.getElementById("tab-debt").addEventListener("input", function(e){
+  var f = e.target.dataset && e.target.dataset.df; if (!f) return;
+  var p = f.split("."), i = +p[0], fl = p[1];
+  S.debts[i][fl] = fl === "n" ? e.target.value : num(e.target.value);
+  save(); if (fl !== "n") renderDebts();
+});
+document.getElementById("tab-debt").addEventListener("click", function(e){
+  if (e.target.closest("[data-ddel]")) { S.debts.splice(+e.target.closest("[data-ddel]").dataset.ddel, 1); save(); renderDebts(); return; }
+  if (e.target.closest("[data-add='debts']")) { S.debts.push({ n: "", start: 0, cur: 0, pay: 0 }); save(); renderDebts(); }
+});
+
+/* ---------- bills ---------- */
+function renderBills(){
+  var html = "<tr><th>Bill</th><th style='text-align:right'>Due day</th><th style='text-align:right'>Amount</th>";
+  MNAMES.forEach(function(mn){ html += "<th style='text-align:center'>" + mn + "</th>"; });
+  html += "<th></th></tr>";
+  S.bills.forEach(function(b, bi){
+    html += "<tr><td><input type='text' value=\"" + esc(b.n) + "\" data-bf='" + bi + ".n'></td>" +
+      "<td><input class='narrow' type='number' inputmode='numeric' min='1' max='31' value='" + b.day + "' data-bf='" + bi + ".day' style='max-width:64px'></td>" +
+      "<td><input class='narrow' type='number' inputmode='decimal' value='" + b.amt + "' data-bf='" + bi + ".amt'></td>";
+    MKEYS.forEach(function(k){
+      var on = S.months[k].paid && S.months[k].paid[bi];
+      html += "<td><input type='checkbox' data-bp='" + bi + "." + k + "'" + (on ? " checked" : "") + "></td>";
+    });
+    html += "<td><button class='rowbtn' data-bdel='" + bi + "'>✕</button></td></tr>";
+  });
+  document.getElementById("tbills").innerHTML = html;
+}
+document.getElementById("tab-bills").addEventListener("input", function(e){
+  var f = e.target.dataset && e.target.dataset.bf; if (!f) return;
+  var p = f.split("."), i = +p[0], fl = p[1];
+  S.bills[i][fl] = fl === "n" ? e.target.value : num(e.target.value);
+  save();
+});
+document.getElementById("tab-bills").addEventListener("change", function(e){
+  var f = e.target.dataset && e.target.dataset.bp; if (!f) return;
+  var p = f.split("."), bi = +p[0], k = p[1];
+  if (!S.months[k].paid) S.months[k].paid = {};
+  if (e.target.checked) S.months[k].paid[bi] = true; else delete S.months[k].paid[bi];
+  save();
+});
+document.getElementById("tab-bills").addEventListener("click", function(e){
+  if (e.target.closest("[data-bdel]")) {
+    var i = +e.target.closest("[data-bdel]").dataset.bdel;
+    S.bills.splice(i, 1);
+    MKEYS.forEach(function(k){ if (S.months[k].paid) delete S.months[k].paid[i]; });
+    save(); renderBills(); return;
+  }
+  if (e.target.closest("[data-add='bills']")) { S.bills.push({ n: "", day: 1, amt: 0 }); save(); renderBills(); }
+});
+
+/* ---------- settings ---------- */
+function renderSettings(){
+  document.getElementById("s-name").value = S.name || "";
+  document.getElementById("s-cur").value = S.currency || "$";
+}
+document.getElementById("s-name").addEventListener("input", function(){ S.name = this.value; save(); });
+document.getElementById("s-cur").addEventListener("input", function(){ S.currency = this.value || "$"; save(); });
+document.getElementById("s-exp").addEventListener("click", function(){
+  var blob = new Blob([JSON.stringify(S, null, 1)], { type: "application/json" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "2027-budget-planner-backup.json";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+});
+document.getElementById("s-imp").addEventListener("click", function(){ document.getElementById("s-impf").click(); });
+document.getElementById("s-impf").addEventListener("change", function(){
+  var f = this.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(){
+    try {
+      var data = JSON.parse(r.result);
+      if (!data.months || !data.months["2027-01"]) throw new Error("bad");
+      S = data; save(); renderAll();
+      alert("Backup imported ✓");
+    } catch (e) { alert("That file doesn't look like a planner backup."); }
+  };
+  r.readAsText(f);
+  this.value = "";
+});
+document.getElementById("s-reset").addEventListener("click", function(){
+  if (confirm("Erase ALL planner data on this device? This cannot be undone.")) {
+    S = blankState(); save(); renderAll();
+  }
+});
+
+/* ---------- boot ---------- */
+function renderAll(){ renderDash(); renderMonth(); renderGoals(); renderDebts(); renderBills(); renderSettings(); }
+renderAll();
+})();
+</script>
+</body>
+</html>
