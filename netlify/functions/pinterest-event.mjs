@@ -136,7 +136,6 @@ export default async (request) => {
     action_source: "web",
     event_time: Math.floor(Date.now() / 1000),
     event_id: eventId,
-    partner_name: "direct",
     user_data: userData
   };
 
