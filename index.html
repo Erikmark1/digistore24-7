@@ -6,6 +6,10 @@
 <title>Digistore24/7 — Faceless Digital Products Shop</title>
 <meta name="description" content="Your 24/7 digital shop for camera-shy creators. Guides, playbooks, hooks & courses for faceless content — from $7. Instant download via Payhip.">
 <link rel="canonical" href="https://digistore24-7.netlify.app/">
+<link rel="alternate" hreflang="en" href="https://digistore24-7.netlify.app/">
+<link rel="alternate" hreflang="et" href="https://digistore24-7.netlify.app/et/">
+<link rel="alternate" hreflang="x-default" href="https://digistore24-7.netlify.app/">
+<link rel="preconnect" href="https://pe56d.s3.amazonaws.com" crossorigin>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#101828">
 <meta property="og:type" content="website">
@@ -41,6 +45,33 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Digistore24/7",
+  "url": "https://digistore24-7.netlify.app/",
+  "description": "Faceless digital products for camera-shy creators — guides, hook packs, courses and planners from $7, delivered instantly via Payhip.",
+  "sameAs": ["https://payhip.com/DigitalStartUpForYou"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Do I need to show my face?", "acceptedAnswer": { "@type": "Answer", "text": "No — every product is built around faceless methods: hooks, captions, strategies and day-by-day plans you can execute anonymously." } },
+    { "@type": "Question", "name": "How do I get my files?", "acceptedAnswer": { "@type": "Answer", "text": "Immediately. Payhip emails your download link right after checkout so you can start within minutes." } },
+    { "@type": "Question", "name": "What payment methods do you accept?", "acceptedAnswer": { "@type": "Answer", "text": "PayPal and all major debit and credit cards through Payhip's secure checkout. EU and UK VAT is handled for you." } },
+    { "@type": "Question", "name": "What are master resale rights (MRR)?", "acceptedAnswer": { "@type": "Answer", "text": "Many kits include the right to resell the product yourself and keep the profit. Each product page specifies the license." } },
+    { "@type": "Question", "name": "Are the products in English?", "acceptedAnswer": { "@type": "Answer", "text": "Product languages vary — check the language and contents on each Payhip product page before buying." } },
+    { "@type": "Question", "name": "Which product should I start with?", "acceptedAnswer": { "@type": "Answer", "text": "The Digital Marketing Guide ($7) — it settles the is-this-really-for-me question before you spend another cent." } },
+    { "@type": "Question", "name": "What if the file won't download or is defective?", "acceptedAnswer": { "@type": "Answer", "text": "Contact us through the Payhip store and we will replace the file or fix access. Because downloads are instant, change-of-mind refunds are not available." } },
+    { "@type": "Question", "name": "Can I resell the products?", "acceptedAnswer": { "@type": "Answer", "text": "Only where the product page explicitly includes resale or MRR rights. Otherwise the license is personal use — no reselling, sharing or claiming as your own." } },
+    { "@type": "Question", "name": "Are prices in my currency?", "acceptedAnswer": { "@type": "Answer", "text": "Prices are listed in USD. Payhip shows the final amount in your currency at checkout, including any VAT." } }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23101828'/><text y='.9em' x='50%25' text-anchor='middle' font-size='52' fill='%23EEF2FF'>D</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +89,7 @@
     --subtle:#F9FAFB;
     --ink:#101828;
     --muted:#667085;
-    --faint:#98A2B3;
+    --faint:#667085;
     --accent:#4F46E5;
     --accent-hover:#4338CA;
     --accent-soft:#EEF2FF;
@@ -399,7 +430,7 @@
   footer{border-top:1px solid var(--line);margin-top:88px;background:var(--surface)}
   .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;padding:52px 0 40px}
   .foot-brand p{color:var(--muted);font-size:14px;margin-top:14px;max-width:280px}
-  .foot-col h4{font-size:12.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+  .foot-col h3{font-size:12.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
   .foot-col a{display:block;font-size:14.5px;color:var(--muted);padding:5px 0;transition:color .15s}
   .foot-col a:hover{color:var(--ink)}
   .foot-bottom{
@@ -409,6 +440,142 @@
   .foot-bottom a{color:var(--muted)}
   .foot-bottom a:hover{color:var(--ink)}
   @media(max-width:860px){.foot-grid{grid-template-columns:1fr 1fr}}
+
+  /* ===== Skip link ===== */
+  .skip{
+    position:absolute;left:-9999px;top:8px;z-index:100;
+    background:var(--dark);color:#fff;padding:10px 16px;border-radius:8px;
+    font-size:14px;font-weight:600;
+  }
+  .skip:focus{left:12px}
+
+  /* ===== Payment trust ===== */
+  .paytrust{border-bottom:1px solid var(--line);background:var(--surface)}
+  .paytrust-in{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 0;flex-wrap:wrap}
+  .paytrust .lbl{font-size:12.5px;color:var(--muted);display:inline-flex;align-items:center;gap:8px;font-weight:500}
+  .paytrust .lbl b{color:var(--ink);font-weight:600}
+  .pays{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .pay{
+    font-size:10.5px;font-weight:700;letter-spacing:.4px;color:var(--muted);
+    border:1px solid var(--line-strong);border-radius:6px;padding:5px 9px;background:var(--surface);
+    font-family:var(--font-ui);line-height:1;
+  }
+  .pay.visa{color:#1A1F71}
+  .pay.mc{color:#EB001B}
+  .pay.pp{color:#003087}
+  .pay.amex{color:#006FCF}
+  .pay.ap{color:var(--ink)}
+  @media(max-width:680px){.paytrust-in{justify-content:center;text-align:center;gap:10px}}
+
+  /* ===== Kit finder ===== */
+  .finder{padding:0 0 8px}
+  .finder-box{
+    display:grid;grid-template-columns:.82fr 1.18fr;
+    border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;
+    background:var(--surface);box-shadow:var(--shadow-md);
+  }
+  .finder-side{
+    padding:38px 34px;display:flex;flex-direction:column;justify-content:center;gap:12px;
+    background:linear-gradient(160deg,#232145 0%,#2A2754 55%,#38336B 100%);color:#fff;
+  }
+  .finder-side .kick{font-size:11.5px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:#C7D2FE}
+  .finder-side h2{font-family:var(--font-display);font-size:clamp(24px,2.6vw,31px);font-weight:560;line-height:1.15}
+  .finder-side p{color:#B6C2DC;font-size:14.5px;max-width:320px}
+  .finder-side .mini{font-size:12.5px;color:#98A2B3;margin-top:4px}
+  .finder-main{padding:32px 34px;min-height:250px}
+  .qmeta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .qcount{font-size:11.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--faint)}
+  .dots{display:flex;gap:6px}
+  .dots i{width:24px;height:3px;border-radius:99px;background:var(--line-strong);display:block;transition:background .2s}
+  .dots i.on{background:var(--accent)}
+  .qstep h3{font-size:19px;font-weight:600;margin-bottom:15px;letter-spacing:-.01em}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .opt{
+    text-align:left;background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;
+    padding:12px 14px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;
+    transition:border-color .15s, background .15s, transform .15s;
+  }
+  .opt:hover{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
+  .qback{
+    margin-top:14px;font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;
+    text-decoration:underline;text-underline-offset:3px;
+  }
+  .qback:hover{color:var(--ink)}
+  .find-result{display:grid;grid-template-columns:118px 1fr;gap:18px;align-items:center}
+  .find-result img{width:118px;height:118px;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:var(--subtle)}
+  .find-result .tag{margin-bottom:8px}
+  .find-result h3{font-size:20px;font-weight:600;margin-bottom:5px;letter-spacing:-.01em}
+  .find-result p{font-size:13.5px;color:var(--muted);margin-bottom:12px}
+  .find-result .price{font-size:22px;font-weight:700;margin-bottom:12px}
+  .find-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .find-restart{font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  .find-restart:hover{color:var(--ink)}
+  .find-all{display:inline-block;margin-top:12px;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:900px){.finder-box{grid-template-columns:1fr}.finder-side{padding:30px}.finder-main{padding:28px 24px;min-height:0}}
+  @media(max-width:520px){
+    .opts{grid-template-columns:1fr}
+    .find-result{grid-template-columns:1fr}
+    .find-result img{width:100%;height:170px}
+  }
+
+  /* ===== Includes strip ===== */
+  .includes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+  .inc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow-xs)}
+  .inc b{display:block;font-size:13.5px;margin-bottom:3px}
+  .inc span{font-size:12.5px;color:var(--muted)}
+  @media(max-width:760px){.includes{grid-template-columns:1fr 1fr}}
+
+  /* ===== Featured extras ===== */
+  .feat-list{list-style:none;display:grid;gap:8px;margin:0 0 22px;padding:0}
+  .feat-list li{font-size:13.5px;color:var(--muted);display:flex;gap:9px;align-items:flex-start}
+  .feat-list li::before{content:"✓";color:var(--accent);font-weight:700;line-height:1.35}
+  .feat-more{display:inline-block;margin-top:12px;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+  .feat-more:hover{color:var(--ink)}
+
+  /* ===== Free hooks band ===== */
+  .freeband{padding:0 0 88px}
+  .freebox{
+    display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;
+    background:linear-gradient(120deg,var(--accent-soft),#fff 62%);
+    border:1px solid var(--line);border-radius:var(--radius-lg);padding:30px 34px;box-shadow:var(--shadow-xs);
+  }
+  .freebox h2{font-family:var(--font-display);font-size:clamp(23px,2.6vw,28px);font-weight:560;margin-bottom:6px}
+  .freebox p{font-size:14.5px;color:var(--muted);max-width:560px}
+  .freebox .btn{flex:none}
+  .review-line{margin-top:16px;font-size:13px;color:var(--faint);text-align:center}
+  .review-line a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+  .review-line a:hover{color:var(--ink)}
+  @media(max-width:640px){.freebox{padding:26px 22px}.freebox .btn{width:100%}}
+
+  /* ===== Card extras ===== */
+  .card-meta{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--faint)}
+  .card-meta .t{color:var(--accent)}
+  .card-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--line-strong);flex:none}
+  .best{font-size:12px;color:var(--faint);display:flex;align-items:center;gap:6px}
+  .best::before{content:"→";color:var(--accent);font-weight:700}
+
+  /* ===== About the shop ===== */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:start}
+  .about-copy p{font-size:15px;color:var(--muted);margin-bottom:14px;max-width:520px}
+  .about-points{display:grid;gap:12px}
+  .apoint{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow-xs)}
+  .apoint b{display:block;font-size:14px;margin-bottom:3px}
+  .apoint span{font-size:13px;color:var(--muted)}
+  @media(max-width:820px){.about{grid-template-columns:1fr;gap:22px}}
+
+  /* ===== Mobile quick bar ===== */
+  .mobile-bar{display:none}
+  @media(max-width:720px){
+    .mobile-bar{
+      display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:70;gap:8px;
+      background:rgba(16,24,40,.96);backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:8px;
+      box-shadow:0 12px 30px rgba(0,0,0,.28);
+    }
+    .mobile-bar a{flex:1;text-align:center;font-size:13.5px;font-weight:600;padding:10px 8px;border-radius:9px;color:#fff}
+    .mobile-bar a.primary{background:var(--accent)}
+    body{padding-bottom:78px}
+  }
 
   /* ===== Reveal on scroll ===== */
   .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease, transform .55s ease}
@@ -420,6 +587,8 @@
 <script defer src="/pinterest.js"></script>
 </head>
 <body>
+
+<a class="skip" href="#top" data-i18n="skip">Skip to content</a>
 
 <!-- ===== Trust bar ===== -->
 <div class="trustbar">
@@ -463,11 +632,11 @@
         <h1 data-i18n-html="heroTitle">Kasva ja müü veebis — <em>ilma nägu näitamata.</em></h1>
         <p class="lead" data-i18n="heroLead">Praktilised juhendid, konksud ja kursused loojatele, kes kaamerat ei armasta. Laadi komplekt alla sekunditega ja alusta postitamist juba täna.</p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="#shop" data-i18n="heroBtn1">Sirvi tooteid</a>
-          <a class="btn btn-secondary" href="https://payhip.com/DigitalStartUpForYou" target="_blank" rel="noopener" data-i18n="heroBtn2">Payhipi pood ↗</a>
+          <a class="btn btn-primary" href="#finder" data-i18n="heroBtn1">Find my kit — 20 sec</a>
+          <a class="btn btn-secondary" href="#shop" data-i18n="heroBtn2">Browse all 13</a>
         </div>
         <div class="hero-note">
-          <span class="stars">★★★★★</span>
+          <span aria-hidden="true">🔒</span>
           <span data-i18n="heroNote">Kohene tarne · Turvaline ost · EU/UK käibemaks korraldatud</span>
         </div>
       </div>
@@ -482,6 +651,20 @@
       </div>
     </div>
   </section>
+
+  <!-- ===== Payment trust ===== -->
+  <div class="paytrust">
+    <div class="wrap paytrust-in">
+      <span class="lbl">🔒 <span><b data-i18n="payLbl">Secure checkout by Payhip</b> · <span data-i18n="payCreators">130,000+ creators sell with Payhip</span></span></span>
+      <div class="pays" role="list" aria-label="Accepted payment methods">
+        <span class="pay visa" role="listitem">VISA</span>
+        <span class="pay mc" role="listitem">Mastercard</span>
+        <span class="pay pp" role="listitem">PayPal</span>
+        <span class="pay amex" role="listitem">AMEX</span>
+        <span class="pay ap" role="listitem">Apple&nbsp;Pay</span>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== Platform strip ===== -->
   <div class="platforms-strip">
@@ -506,6 +689,21 @@
       </div>
     </div>
   </div>
+
+  <!-- ===== Kit finder ===== -->
+  <section class="finder" id="finder">
+    <div class="wrap">
+      <div class="finder-box reveal">
+        <div class="finder-side">
+          <span class="kick" data-i18n="finderKicker">Kit finder</span>
+          <h2 data-i18n="finderTitle">Find your first kit in 20 seconds.</h2>
+          <p data-i18n="finderLead">Three quick questions. One clear next step — no account, no email needed.</p>
+          <span class="mini" data-i18n="finderMini">13 kits · $7–$57 · instant download</span>
+        </div>
+        <div class="finder-main" id="finderBody" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== Bento: the method ===== -->
   <section id="why">
@@ -561,11 +759,23 @@
           <span class="tag" data-i18n="featTag">Alusta siit — populaarseim esimene ost</span>
           <h3>Digital Marketing Guide</h3>
           <p data-i18n="featBody">Kõige lihtsam jah kogu poes. Proovi vetes $7 eest — enne kui kulutad sentigi rohkem.</p>
+          <ul class="feat-list">
+            <li data-i18n="featB1">Instant PDF download</li>
+            <li data-i18n="featB2">Beginner-friendly, no camera</li>
+            <li data-i18n="featB3">Keep it forever — no subscription</li>
+          </ul>
           <div class="featured-price"><b>$7</b></div>
           <div>
             <a class="btn btn-primary" href="https://payhip.com/b/NOHiI" target="_blank" rel="noopener"><span data-i18n="featBtn">Osta $7 eest →</span></a>
+            <a class="feat-more" href="https://payhip.com/b/NOHiI" target="_blank" rel="noopener" data-i18n="featMore">See full details on Payhip ↗</a>
           </div>
         </div>
+      </div>
+      <div class="includes reveal">
+        <div class="inc"><b data-i18n="inc1b">Instant download</b><span data-i18n="inc1s">Files by email right after checkout.</span></div>
+        <div class="inc"><b data-i18n="inc2b">Yours forever</b><span data-i18n="inc2s">No subscription. Re-download anytime.</span></div>
+        <div class="inc"><b data-i18n="inc3b">Any device</b><span data-i18n="inc3s">Phone, tablet or desktop.</span></div>
+        <div class="inc"><b data-i18n="inc4b">Clear license</b><span data-i18n="inc4s">Personal use; resale rights where stated.</span></div>
       </div>
     </div>
   </section>
@@ -575,7 +785,7 @@
     <div class="wrap">
       <div class="shop-head">
         <div><h2 data-i18n="shopTitle">Kogu kollektsioon</h2></div>
-        <span class="count" id="count"></span>
+        <span class="count" id="count" aria-live="polite"></span>
       </div>
       <div class="controls">
         <label class="search">
@@ -585,6 +795,20 @@
         <div class="chips" id="chips"></div>
       </div>
       <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- ===== Free hooks ===== -->
+  <section class="freeband">
+    <div class="wrap">
+      <div class="freebox reveal">
+        <div>
+          <h2 data-i18n="freeTitle">Not ready to buy? Steal 10 hooks free.</h2>
+          <p data-i18n="freeBody">The same hook style used in the kits — instant access, no spam. See if the method clicks before you spend a cent.</p>
+        </div>
+        <a class="btn btn-primary" href="/free" data-i18n="freeBtn">Get 10 free hooks →</a>
+      </div>
+      <p class="review-line"><span data-i18n="reviewLine">Bought a kit? Leave a review on its Payhip page — it helps the next camera-shy creator decide.</span> <a href="https://payhip.com/DigitalStartUpForYou" target="_blank" rel="noopener" data-i18n="reviewBtn">Leave a review</a></p>
     </div>
   </section>
 
@@ -614,6 +838,28 @@
     </div>
   </section>
 
+  <!-- ===== About the shop ===== -->
+  <section id="about" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="kicker" data-i18n="aboutKicker">About this shop</span>
+        <h2 data-i18n="aboutTitle">Independent shop. Narrow promise.</h2>
+      </div>
+      <div class="about reveal">
+        <div class="about-copy">
+          <p data-i18n="aboutBody">This is an independent shop, not a marketplace. Every product is a faceless-format guide, template pack or course — picked because it works without a camera, a following or a big budget.</p>
+          <p data-i18n="aboutBody2">No fake countdowns, no invented reviews, no guaranteed-income claims. If something is unclear before you buy, ask first — that is cheaper than a refund.</p>
+          <a class="feat-more" href="/policies" data-i18n="aboutLink">Read the license, delivery & refund policy →</a>
+        </div>
+        <div class="about-points">
+          <div class="apoint"><b data-i18n="aboutB1">What you see is what you get</b><span data-i18n="aboutB1s">Each product page lists the format, contents and license before checkout.</span></div>
+          <div class="apoint"><b data-i18n="aboutB2">Payhip handles the money</b><span data-i18n="aboutB2s">Cards, PayPal, VAT and receipts. Card details never touch this site.</span></div>
+          <div class="apoint"><b data-i18n="aboutB3">Real support</b><span data-i18n="aboutB3s">Broken file or dead link? Message the store and it gets replaced.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== CTA ===== -->
   <section style="padding-top:0;padding-bottom:0">
     <div class="wrap">
@@ -636,18 +882,20 @@
         <p data-i18n="footAbout">Näota digitooted kaamerast karta loojatele — juhendid, konksud ja kursused alates $7. Kohe pärast ostu allalaetav.</p>
       </div>
       <div class="foot-col">
-        <h4 data-i18n="footColShop">Pood</h4>
+        <h3 data-i18n="footColShop">Pood</h3>
         <a href="https://payhip.com/DigitalStartUpForYou" target="_blank" rel="noopener" data-i18n="footStore">Payhipi pood</a>
         <a href="#shop" data-i18n="footShop">Kõik tooted</a>
         <a href="#start" data-i18n="footStart">Alusta siit</a>
+        <a href="/free" data-i18n="footFree">Tasuta konksud</a>
       </div>
       <div class="foot-col">
-        <h4 data-i18n="footColSupport">Toe</h4>
+        <h3 data-i18n="footColSupport">Toe</h3>
         <a href="#faq" data-i18n="footFaq">KKK</a>
+        <a href="/policies" data-i18n="footPolicies">Tingimused</a>
         <a href="https://payhip.com/DigitalStartUpForYou" target="_blank" rel="noopener" data-i18n="footContact">Kontakt ostu kaudu</a>
       </div>
       <div class="foot-col">
-        <h4 data-i18n="footColPlatforms">Platvormid</h4>
+        <h3 data-i18n="footColPlatforms">Platvormid</h3>
         <span style="display:block;font-size:14.5px;color:var(--muted);padding:5px 0">TikTok</span>
         <span style="display:block;font-size:14.5px;color:var(--muted);padding:5px 0">Instagram · YouTube</span>
         <span style="display:block;font-size:14.5px;color:var(--muted);padding:5px 0">Pinterest · Etsy</span>
@@ -659,6 +907,11 @@
     </div>
   </div>
 </footer>
+
+<div class="mobile-bar" aria-label="Quick actions">
+  <a class="primary" href="#finder" data-i18n="stickyFind">Find my kit</a>
+  <a href="#shop" data-i18n="stickyShop">Shop from $7</a>
+</div>
 
 <script>
 /* =====================================================================
@@ -733,6 +986,47 @@ const PRODUCTS = [
     link:"https://payhip.com/b/YZzvP", img:"https://pe56d.s3.amazonaws.com/o_1k56urk7siaari2109t12351p1d1f.jpg" },
 ];
 
+/* Extra merchandising metadata, keyed by product URL.
+   type = product format · best = who it is for · why = one-line reason to buy */
+const META = {
+  "https://payhip.com/b/NOHiI": { type:"guide", best:{en:"first-time buyers",et:"esmaostjale"},
+    why:{en:"It answers “is this for me?” for $7 — the cheapest way to test the method.",et:"Vastab küsimusele „kas see on minu jaoks?“ $7 eest — odavaim viis meetodit proovida."} },
+  "https://payhip.com/b/MBFzo": { type:"challenge", best:{en:"Instagram & TikTok consistency",et:"Instagrami ja TikToki järjepidevus"},
+    why:{en:"A done-for-you 28-day posting plan — open it, post, repeat.",et:"Valmis 28-päevane postitusplaan — ava, postita, korda."} },
+  "https://payhip.com/b/v64nf": { type:"guide", best:{en:"Pinterest & Etsy traffic",et:"Pinteresti ja Etsy liiklus"},
+    why:{en:"The two search platforms where faceless content keeps selling after you post.",et:"Kaks otsinguplatvormi, kus näota sisu müüb ka pärast postitamist."} },
+  "https://payhip.com/b/HtVOm": { type:"playbook", best:{en:"a repeatable content system",et:"korduv sisusüsteem"},
+    why:{en:"Turns random posting into a repeatable system you can run without a camera.",et:"Muudab juhusliku postitamise korduvaks süsteemiks, mida saab juhtida ilma kaamerata."} },
+  "https://payhip.com/b/xXa9j": { type:"guide", best:{en:"TikTok growth",et:"TikToki kasv"},
+    why:{en:"The full TikTok method, start to finish — no face, no dancing.",et:"Täielik TikToki meetod algusest lõpuni — ilma näo ja tantsudeta."} },
+  "https://payhip.com/b/9zJxC": { type:"guide", best:{en:"launching your first product",et:"esimese toote käivitamine"},
+    why:{en:"Covers creating and selling your first digital product in one guide.",et:"Katab esimese digitoote loomise ja müügi ühes juhendis."} },
+  "https://payhip.com/b/E7Aj0": { type:"planner", best:{en:"money & bill tracking",et:"eelarve ja arvete jälgimine"},
+    why:{en:"12 months of budgets, bills and savings goals — digital and printable.",et:"12 kuud eelarvet, arveid ja säästueesmärke — digitaalselt ja printides."} },
+  "https://payhip.com/b/McyES": { type:"guide", best:{en:"faceless YouTube channels",et:"näota YouTube'i kanalid"},
+    why:{en:"Channel setup, content workflow and monetisation without showing your face.",et:"Kanali seadistamine, sisutöövoog ja monetiseerimine ilma nägu näitamata."} },
+  "https://payhip.com/b/YyVCS": { type:"playbook", best:{en:"more views on every post",et:"rohkem vaatamisi igal postitusel"},
+    why:{en:"100+ proven hooks — the first three seconds stop the scroll.",et:"100+ tõestatud konksu — esimesed kolm sekundit peatavad kerimise."} },
+  "https://payhip.com/b/TWYRm": { type:"toolkit", best:{en:"the full system",et:"terviklik süsteem"},
+    why:{en:"The complete faceless stack: strategy, content and sales in one kit.",et:"Täielik näota komplekt: strateegia, sisu ja müük ühes komplektis."} },
+  "https://payhip.com/b/VWAE4": { type:"course", best:{en:"learning digital marketing fast",et:"kiire digiturunduse õpe"},
+    why:{en:"A 3-hour audio + video course you can finish today.",et:"3-tunnine audio- ja videokursus, mille saad täna lõpetada."} },
+  "https://payhip.com/b/7ZGzl": { type:"playbook", best:{en:"Instagram followers → sales",et:"Instagrami jälgijad → müük"},
+    why:{en:"0 followers to first IG sale — growth and sales, not just likes.",et:"0 jälgijast esimese IG müügini — kasv ja müük, mitte ainult laigid."} },
+  "https://payhip.com/b/YZzvP": { type:"toolkit", best:{en:"posting daily without thinking",et:"igapäevane postitamine ilma mõtlemiseta"},
+    why:{en:"100 ready-made hooks + captions. Copy, paste, post.",et:"100 valmis konksu ja pealkirja. Kopeeri, kleebi, postita."} },
+};
+PRODUCTS.forEach(p => Object.assign(p, META[p.link] || {}));
+
+const TYPE_LABEL = {
+  guide:     {en:"Guide",     et:"Juhend"},
+  playbook:  {en:"Playbook",  et:"Mänguraamat"},
+  challenge: {en:"Challenge", et:"Väljakutse"},
+  course:    {en:"Course",    et:"Kursus"},
+  planner:   {en:"Planner",   et:"Plaanija"},
+  toolkit:   {en:"Toolkit",   et:"Tööriistakomplekt"},
+};
+
 const CAT_LABEL = {
   all:       {en:"All",           et:"Kõik"},
   start:     {en:"Start here",    et:"Alustajale"},
@@ -756,9 +1050,34 @@ const T = {
     heroEyebrow:"Pood on avatud 24/7",
     heroTitle:"Kasva ja müü veebis — <em>ilma nägu näitamata.</em>",
     heroLead:"Praktilised juhendid, konksud ja kursused loojatele, kes kaamerat ei armasta. Laadi komplekt alla sekunditega ja alusta postitamist juba täna.",
-    heroBtn1:"Sirvi tooteid", heroBtn2:"Payhipi pood ↗",
+    heroBtn1:"Leia oma komplekt — 20 sek", heroBtn2:"Sirvi kõiki 13",
     heroNote:"Kohene tarne · Turvaline ost · EU/UK käibemaks korraldatud",
     chipA:"Kohene allalaadimine", chipB:"Alates $7",
+    skip:"Liigu sisu juurde",
+    payLbl:"Turvaline ost Payhipi kaudu", payCreators:"130 000+ loojat müüb Payhipi kaudu",
+    finderKicker:"Komplekti leidja",
+    finderTitle:"Leia oma esimene komplekt 20 sekundiga.",
+    finderLead:"Kolm kiiret küsimust. Üks selge järgmine samm — ilma kontota ja e-mailita.",
+    finderMini:"13 komplekti · $7–$57 · kohene allalaadimine",
+    qOf:"Küsimus", qBack:"Tagasi",
+    q1:"Kus soovid kasvada?", q1none:"Pole veel kindel",
+    q2:"Mida vajad praegu kõige rohkem?",
+    q2plan:"Samm-sammuline plaan", q2hooks:"Konksud ja pealkirjad", q2course:"Terviklik kursus", q2money:"Eelarve ja rahatööriistad",
+    q3:"Milline on sinu eelarve täna?", q3low:"Alla $10", q3mid:"$10–$30", q3high:"$30+",
+    resTag:"Sinu parim järgmine samm", resBtn:"Osta Payhipis →", resAll:"Vaata kõiki 13 komplekti", resRestart:"Alusta uuesti",
+    inc1b:"Kohene allalaadimine", inc1s:"Failid e-postiga kohe pärast ostu.",
+    inc2b:"Jääb sinu omaks", inc2s:"Tellimust pole. Laadi uuesti igal ajal.",
+    inc3b:"Igal seadmel", inc3s:"Telefon, tahvel või arvuti.",
+    inc4b:"Selge litsents", inc4s:"Isiklik kasutus; edasimüügiõigus, kui märgitud.",
+    featB1:"Kohene PDF allalaadimine", featB2:"Algajasõbralik, ilma kaamerata", featB3:"Jääb sulle igaveseks — tellimust pole",
+    featMore:"Vaata täpsemalt Payhipis ↗",
+    freeTitle:"Ei ole veel valmis ostma? Võta 10 konksu tasuta.",
+    freeBody:"Sama konksustiil, mida komplektides kasutatakse — kohene ligipääs, ilma rämpspostita. Proovi meetodit enne, kui kulutad sentigi.",
+    freeBtn:"Saa 10 tasuta konksu →",
+    reviewLine:"Ostsid komplekti? Jäta tootele Payhipis arvustus — see aitab järgmisel kaamerakartlikul loojal otsustada.",
+    reviewBtn:"Jäta arvustus",
+    stickyFind:"Leia komplekt", stickyShop:"Pood alates $7",
+    bestFor:"Sobib:",
     worksLbl:"Töötab platvormidel",
     stat1:"Toodet", stat2:"Alustushind", stat3:"Alati avatud", stat4:"Kaamerat vaja",
     whyKicker:"Meetod",
@@ -782,20 +1101,34 @@ const T = {
     step2T:"Turvaline ost", step2B:"PayPal või kaart Payhipi kaudu — failid saabuvad kohe pärast ostu.",
     step3T:"Kopeeri, postita, kasva", step3B:"Järgi plaani: konksud, pealkirjad, päevased postitused — kõik ilma näguta.",
     faqKicker:"KKK", faqTitle:"Küsimused ja vastused.",
+    aboutKicker:"Poest",
+    aboutTitle:"Iseseisev pood. Kitsas lubadus.",
+    aboutBody:"See on iseseisev pood, mitte turg. Iga toode on näota formaadis juhend, mallipakett või kursus — valitud sellepärast, et see töötab ilma kaamera, jälgijate ja suure eelarveta.",
+    aboutBody2:"Ei mingeid võltsitud loendureid, väljamõeldud arvustusi ega garanteeritud tulu lubadusi. Kui midagi on enne ostu ebaselge, küsi enne — see on odavam kui tagastus.",
+    aboutLink:"Loe litsentsi, tarne ja tagastuse tingimusi →",
+    aboutB1:"Mida näed, seda saad",
+    aboutB1s:"Iga tooteleht näitab formaati, sisu ja litsentsi enne kassat.",
+    aboutB2:"Payhip haldab raha",
+    aboutB2s:"Kaardid, PayPal, käibemaks ja kviitungid. Kaardiandmed ei jõua sellele saidile.",
+    aboutB3:"Päris tugi",
+    aboutB3s:"Katkine fail või surnud link? Kirjuta poele ja see asendatakse.",
     faq:[
       ["Kas pean nägu näitama?","Ei — kõik tooted põhinevad näota meetoditel: konksud, pealkirjad, strateegiad ja päevaplaanid, mida saad teha anonüümselt."],
       ["Kuidas toote kätte saan?","Koheselt. Payhip saadab allalaadimislingi kohe pärast ostu — minutitega saad juba alustada."],
       ["Milliseid makseviise sa vastu võtad?","PayPal ja kõik peamised deebet-/krediitkaardid Payhipi turvalise kassa kaudu. EU/UK käibemaks on korraldatud."],
       ["Mis on edasimüügiõigus (MRR)?","Paljud komplektid annavad õiguse toodet ise edasi müüa ja kasum endale jätta. Täpne litsents on kirjas iga toote lehel."],
       ["Kas tooted on eesti keeles?","Iga digitoote enda keel võib erineda — kontrolli keelt ja sisu Payhipi tootelehelt enne ostmist."],
-      ["Misega alustada?","Digital Marketing Guide ($7) — see vastab küsimusele „kas see on tõesti minu jaoks?“ enne kui kulutad enamat."],
+      ["Millega alustada?","Digital Marketing Guide ($7) — see vastab küsimusele „kas see on tõesti minu jaoks?“ enne kui kulutad enamat."],
+      ["Mida teha, kui fail ei avane või on vigane?","Võta meiega ühendust Payhipi poe kaudu ja asendame faili või parandame ligipääsu. Kuna allalaadimine on kohene, ei ole meelemuutuse tõttu tagastus võimalik — vaata tingimusi."],
+      ["Kas tooteid tohib edasi müüa?","Ainult siis, kui tootelehel on selgelt märgitud edasimüügiõigus (MRR). Muul juhul on litsents isiklikuks kasutuseks — edasimüük, jagamine ja enda omana esitamine on keelatud."],
+      ["Kas hinnad on minu valuutas?","Hinnad on USD-s. Payhip kuvab kassas lõpliku summa sinu valuutas, koos võimaliku käibemaksuga."],
     ],
     ctaTitle:"Valmis kasvama <em>ilma kaamerata?</em>",
     ctaBody:"Vali esimene komplekt ja alusta juba täna — allalaadimine on kohene, ootamist null.",
     ctaBtn:"Sirvi kõiki tooteid",
     footAbout:"Näota digitooted kaamerast karta loojatele — juhendid, konksud ja kursused alates $7. Kohe pärast ostu allalaetav.",
-    footColShop:"Pood", footStore:"Payhipi pood", footShop:"Kõik tooted", footStart:"Alusta siit",
-    footColSupport:"Tugi", footFaq:"KKK", footContact:"Kontakt ostu kaudu",
+    footColShop:"Pood", footStore:"Payhipi pood", footShop:"Kõik tooted", footStart:"Alusta siit", footFree:"Tasuta konksud",
+    footColSupport:"Tugi", footFaq:"KKK", footPolicies:"Tingimused", footContact:"Kontakt ostu kaudu",
     footColPlatforms:"Platvormid",
     footNote:"© <span id=\"year\"></span> Digistore24/7 — maksed ja failide tarne Payhipi kaudu.",
     footSample:"Kohene allalaadimine · Turvaline ost Payhipi kaudu",
@@ -811,9 +1144,34 @@ const T = {
     heroEyebrow:"Shop open 24/7",
     heroTitle:"Grow and sell online — <em>without your face.</em>",
     heroLead:"Practical guides, hooks and courses for camera-shy creators. Download a kit in seconds and start posting today.",
-    heroBtn1:"Browse the shop", heroBtn2:"Payhip store ↗",
+    heroBtn1:"Find my kit — 20 sec", heroBtn2:"Browse all 13",
     heroNote:"Instant delivery · Secure checkout · EU/UK VAT handled",
     chipA:"Instant download", chipB:"From $7",
+    skip:"Skip to content",
+    payLbl:"Secure checkout by Payhip", payCreators:"130,000+ creators sell with Payhip",
+    finderKicker:"Kit finder",
+    finderTitle:"Find your first kit in 20 seconds.",
+    finderLead:"Three quick questions. One clear next step — no account, no email needed.",
+    finderMini:"13 kits · $7–$57 · instant download",
+    qOf:"Question", qBack:"Back",
+    q1:"Where do you want to grow?", q1none:"Not sure yet",
+    q2:"What do you need most right now?",
+    q2plan:"A step-by-step plan", q2hooks:"Hooks & captions", q2course:"A full course", q2money:"Budget & money tools",
+    q3:"What's your budget today?", q3low:"Under $10", q3mid:"$10–$30", q3high:"$30+",
+    resTag:"Your best next step", resBtn:"Get it on Payhip →", resAll:"See all 13 kits", resRestart:"Start over",
+    inc1b:"Instant download", inc1s:"Files by email right after checkout.",
+    inc2b:"Yours forever", inc2s:"No subscription. Re-download anytime.",
+    inc3b:"Any device", inc3s:"Phone, tablet or desktop.",
+    inc4b:"Clear license", inc4s:"Personal use; resale rights where stated.",
+    featB1:"Instant PDF download", featB2:"Beginner-friendly, no camera", featB3:"Keep it forever — no subscription",
+    featMore:"See full details on Payhip ↗",
+    freeTitle:"Not ready to buy? Steal 10 hooks free.",
+    freeBody:"The same hook style used in the kits — instant access, no spam. See if the method clicks before you spend a cent.",
+    freeBtn:"Get 10 free hooks →",
+    reviewLine:"Bought a kit? Leave a review on its Payhip page — it helps the next camera-shy creator decide.",
+    reviewBtn:"Leave a review",
+    stickyFind:"Find my kit", stickyShop:"Shop from $7",
+    bestFor:"Best for:",
     worksLbl:"Works with",
     stat1:"Products", stat2:"Start price", stat3:"Always open", stat4:"Camera required",
     whyKicker:"The method",
@@ -837,6 +1195,17 @@ const T = {
     step2T:"Secure checkout", step2B:"PayPal or card via Payhip — files arrive right after purchase.",
     step3T:"Copy, post, grow", step3B:"Follow the plan: hooks, captions, day-by-day posting — all faceless.",
     faqKicker:"FAQ", faqTitle:"Questions, answered.",
+    aboutKicker:"About this shop",
+    aboutTitle:"Independent shop. Narrow promise.",
+    aboutBody:"This is an independent shop, not a marketplace. Every product is a faceless-format guide, template pack or course — picked because it works without a camera, a following or a big budget.",
+    aboutBody2:"No fake countdowns, no invented reviews, no guaranteed-income claims. If something is unclear before you buy, ask first — that is cheaper than a refund.",
+    aboutLink:"Read the license, delivery & refund policy →",
+    aboutB1:"What you see is what you get",
+    aboutB1s:"Each product page lists the format, contents and license before checkout.",
+    aboutB2:"Payhip handles the money",
+    aboutB2s:"Cards, PayPal, VAT and receipts. Card details never touch this site.",
+    aboutB3:"Real support",
+    aboutB3s:"Broken file or dead link? Message the store and it gets replaced.",
     faq:[
       ["Do I need to show my face?","No — every product is built around faceless methods: hooks, captions, strategies and day-by-day plans you can execute anonymously."],
       ["How do I get my files?","Immediately. Payhip emails your download link right after checkout so you can start within minutes."],
@@ -844,13 +1213,16 @@ const T = {
       ["What are master resale rights (MRR)?","Many kits include the right to resell the product yourself and keep the profit. Each product page specifies the license."],
       ["Are the products in English?","Product languages vary — check the language and contents on each Payhip product page before buying."],
       ["Which product should I start with?","The Digital Marketing Guide ($7) — it settles the “is this really for me?” question before you spend another cent."],
+      ["What if the file won't download or is defective?","Contact us through the Payhip store and we'll replace the file or fix access. Because downloads are instant, change-of-mind refunds aren't available — see Policies."],
+      ["Can I resell the products?","Only where the product page explicitly includes resale/MRR rights. Otherwise the license is personal use — no reselling, sharing or claiming as your own."],
+      ["Are prices in my currency?","Prices are listed in USD. Payhip shows the final amount in your currency at checkout, including any VAT."],
     ],
     ctaTitle:"Ready to grow <em>without the camera?</em>",
     ctaBody:"Pick your first kit and start posting today — instant download, zero waiting.",
     ctaBtn:"Browse all products",
     footAbout:"Faceless digital products for camera-shy creators — guides, hooks and courses from $7. Delivered instantly after checkout.",
-    footColShop:"Shop", footStore:"Payhip store", footShop:"All products", footStart:"Start here",
-    footColSupport:"Support", footFaq:"FAQ", footContact:"Contact via store",
+    footColShop:"Shop", footStore:"Payhip store", footShop:"All products", footStart:"Start here", footFree:"Free hooks",
+    footColSupport:"Support", footFaq:"FAQ", footPolicies:"Policies", footContact:"Contact via store",
     footColPlatforms:"Platforms",
     footNote:"© <span id=\"year\"></span> Digistore24/7 — payments & file delivery by Payhip.",
     footSample:"Instant download · Secure checkout via Payhip",
@@ -858,7 +1230,13 @@ const T = {
 };
 
 /* ================= i18n engine ================= */
-let LANG = localStorage.getItem("ds77-lang") || "en";
+let LANG = (() => {
+  try {
+    const q = new URLSearchParams(location.search).get("lang");
+    if(q === "et" || q === "en") return q;
+  } catch(e){}
+  return localStorage.getItem("ds77-lang") || "en";
+})();
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const t  = k => T[LANG][k];
@@ -874,7 +1252,7 @@ function applyLang(){
   $$("[data-i18n-html]").forEach(el => el.innerHTML = t(el.dataset.i18nHtml));
   $$("[data-i18n-ph]").forEach(el => el.placeholder = t(el.dataset.i18nPh));
   $$(".lang-btn").forEach(b => b.classList.toggle("on", b.dataset.lang === LANG));
-  buildFaq(); buildChips(); render();
+  buildFaq(); buildChips(); render(); renderFinder();
   localStorage.setItem("ds77-lang", LANG);
 }
 $$(".lang-btn").forEach(b => b.addEventListener("click", () => { LANG = b.dataset.lang; applyLang(); }));
@@ -883,10 +1261,102 @@ $$(".lang-btn").forEach(b => b.addEventListener("click", () => { LANG = b.datase
 const money = n => "$" + (Number.isInteger(n) ? n : n.toFixed(2));
 let cat = "all", query = "";
 
+/* ================= Kit finder ================= */
+const FINDER = [
+  { key:"platform", q:"q1", opts:[
+    {v:"tiktok", label:"TikTok"},
+    {v:"instagram", label:"Instagram"},
+    {v:"youtube", label:"YouTube"},
+    {v:"pinterest", label:"Pinterest / Etsy"},
+    {v:"none", labelKey:"q1none"},
+  ]},
+  { key:"need", q:"q2", opts:[
+    {v:"plan", labelKey:"q2plan"},
+    {v:"hooks", labelKey:"q2hooks"},
+    {v:"course", labelKey:"q2course"},
+    {v:"money", labelKey:"q2money"},
+  ]},
+  { key:"budget", q:"q3", opts:[
+    {v:"low", labelKey:"q3low"},
+    {v:"mid", labelKey:"q3mid"},
+    {v:"high", labelKey:"q3high"},
+  ]},
+];
+const QUIZ = { step:0, platform:null, need:null, budget:null };
+const bySlug = id => PRODUCTS.find(p => p.link.endsWith("/" + id));
+
+function recommendKit(){
+  const { platform, need, budget } = QUIZ;
+  const low = budget === "low", high = budget === "high";
+  if(need === "hooks") return high ? bySlug("YZzvP") : budget === "mid" ? bySlug("YyVCS") : bySlug("MBFzo");
+  if(need === "course") return high ? bySlug("VWAE4") : budget === "mid" ? bySlug("HtVOm") : bySlug("NOHiI");
+  if(need === "money") return low ? bySlug("NOHiI") : bySlug("E7Aj0");
+  if(platform === "tiktok") return low ? bySlug("MBFzo") : bySlug("xXa9j");
+  if(platform === "instagram") return high ? bySlug("7ZGzl") : bySlug("MBFzo");
+  if(platform === "youtube") return low ? bySlug("NOHiI") : bySlug("McyES");
+  if(platform === "pinterest") return low ? bySlug("NOHiI") : bySlug("v64nf");
+  return high ? bySlug("TWYRm") : budget === "mid" ? bySlug("HtVOm") : bySlug("NOHiI");
+}
+
+function renderFinder(){
+  const box = $("#finderBody"); if(!box) return;
+  if(QUIZ.step < FINDER.length){
+    const s = FINDER[QUIZ.step];
+    const opts = s.opts.map(o => {
+      const label = o.label || t(o.labelKey);
+      return `<button class="opt" type="button" data-v="${o.v}">${label}</button>`;
+    }).join("");
+    box.innerHTML = `
+      <div class="qmeta">
+        <span class="qcount">${t("qOf")} ${QUIZ.step + 1} / ${FINDER.length}</span>
+        <div class="dots" aria-hidden="true">${FINDER.map((_, i) => `<i class="${i <= QUIZ.step ? "on" : ""}"></i>`).join("")}</div>
+      </div>
+      <div class="qstep on">
+        <h3>${t(s.q)}</h3>
+        <div class="opts" role="group" aria-label="${t(s.q)}">${opts}</div>
+        ${QUIZ.step > 0 ? `<button class="qback" type="button" id="qBack">← ${t("qBack")}</button>` : ""}
+      </div>`;
+    return;
+  }
+  const p = recommendKit();
+  const type = p.type && TYPE_LABEL[p.type] ? TYPE_LABEL[p.type][LANG] : "";
+  box.innerHTML = `
+    <div class="qmeta">
+      <span class="qcount">${t("resTag")}</span>
+      <div class="dots" aria-hidden="true">${FINDER.map(() => `<i class="on"></i>`).join("")}</div>
+    </div>
+    <div class="find-result">
+      <img src="${p.img}" alt="${p.title}" width="118" height="118" loading="lazy" decoding="async">
+      <div>
+        <span class="tag">${type ? type + " · " : ""}${money(p.price)}</span>
+        <h3>${p.title}</h3>
+        <p>${p.why ? p.why[LANG] : p.d[LANG]}</p>
+        <div class="find-actions">
+          <a class="btn btn-primary btn-sm" href="${p.link}" target="_blank" rel="noopener">${t("resBtn")}</a>
+          <button class="find-restart" type="button" id="qRestart">${t("resRestart")}</button>
+        </div>
+        <a class="find-all" href="#shop">${t("resAll")}</a>
+      </div>
+    </div>`;
+}
+
+$("#finderBody").addEventListener("click", e => {
+  const opt = e.target.closest(".opt");
+  if(opt){
+    const s = FINDER[QUIZ.step];
+    QUIZ[s.key] = opt.dataset.v;
+    QUIZ.step += 1;
+    renderFinder();
+    return;
+  }
+  if(e.target.closest("#qBack")){ QUIZ.step = Math.max(0, QUIZ.step - 1); renderFinder(); return; }
+  if(e.target.closest("#qRestart")){ QUIZ.step = 0; QUIZ.platform = QUIZ.need = QUIZ.budget = null; renderFinder(); }
+});
+
 function buildChips(){
   const cats = ["all", ...new Set(PRODUCTS.map(p => p.cat))];
   $("#chips").innerHTML = cats.map(c =>
-    `<button class="chip${c===cat?" on":""}" data-cat="${c}">${CAT_LABEL[c][LANG]}</button>`).join("");
+    `<button class="chip${c===cat?" on":""}" data-cat="${c}" aria-pressed="${c===cat}">${CAT_LABEL[c][LANG]}</button>`).join("");
 }
 function render(){
   const q = query.trim().toLowerCase();
@@ -898,16 +1368,17 @@ function render(){
     (cat !== "all" ? ` · ${CAT_LABEL[cat][LANG]}` : "");
   $("#grid").innerHTML = list.length ? list.map(p => `
     <article class="card">
-      <a class="cover" href="${p.link}" target="_blank" rel="noopener" aria-label="${p.title}">
+      <a class="cover" href="${p.link}" target="_blank" rel="noopener">
         ${p.badge ? `<span class="badge${p.newStyle ? " new" : ""}">${p.badge[LANG]}</span>` : ""}
-        <img src="${p.img}" alt="${p.title}" loading="lazy"
+        <img src="${p.img}" alt="${p.title}" width="600" height="600" loading="lazy" decoding="async"
              onerror="const f=this.parentElement?.querySelector('.fallback');if(f)f.style.display='grid';this.remove()">
         <div class="fallback"><b>${p.title}</b></div>
       </a>
       <div class="card-body">
-        <span class="card-cat">${CAT_LABEL[p.cat][LANG]}</span>
+        <span class="card-meta">${p.type ? `<span class="t">${TYPE_LABEL[p.type][LANG]}</span><span class="dot"></span>` : ""}${CAT_LABEL[p.cat][LANG]}</span>
         <h3>${p.title}</h3>
         <p class="desc">${p.d[LANG]}</p>
+        ${p.best ? `<p class="best">${t("bestFor")} ${p.best[LANG]}</p>` : ""}
         <div class="card-foot">
           <span class="price">${money(p.price)}</span>
           <a class="buy" href="${p.link}" target="_blank" rel="noopener">${t("buyLabel")}</a>
@@ -918,7 +1389,7 @@ function render(){
 $("#chips").addEventListener("click", e => {
   const b = e.target.closest(".chip"); if(!b) return;
   cat = b.dataset.cat;
-  $$(".chip").forEach(c => c.classList.toggle("on", c === b));
+  $$(".chip").forEach(c => { c.classList.toggle("on", c === b); c.setAttribute("aria-pressed", c === b); });
   render();
 });
 $("#q").addEventListener("input", e => { query = e.target.value; render(); });
