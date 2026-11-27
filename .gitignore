@@ -1,0 +1,7 @@
+# Netlify CLI state and local build artifacts
+.netlify/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
