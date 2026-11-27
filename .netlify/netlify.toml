@@ -1,0 +1,28 @@
+functionsDirectory = "C:\\Users\\Teine korrus\\AppData\\Local\\Temp\\opencode\\ds247\\netlify\\functions"
+functionsDirectoryOrigin = "config-v1"
+plugins = []
+headers = []
+redirects = []
+
+[build]
+publish = "C:\\Users\\Teine korrus\\AppData\\Local\\Temp\\opencode\\ds247"
+publishOrigin = "config"
+functions = "C:\\Users\\Teine korrus\\AppData\\Local\\Temp\\opencode\\ds247\\netlify\\functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[functions]
+
+[functions."*"]
