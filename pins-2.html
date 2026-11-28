@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pin Kit — Digistore24/7 Batch 2 (private)</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d1f45'/><text y='.9em' x='50%25' text-anchor='middle' font-size='60'>📌</text></svg>">
+<style>
+  :root{--navy:#0d1f45;--navy-deep:#091630;--navy-soft:#132a58;--gold:#FFC32B;--muted:#93a1c0;--line:rgba(147,161,192,.22)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#e8edf8;background:linear-gradient(180deg,var(--navy-deep) 0%,#0a1b3d 40%,var(--navy) 100%);min-height:100vh;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+  header{position:sticky;top:0;z-index:50;background:rgba(9,22,48,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .header-in{display:flex;align-items:center;justify-content:space-between;height:60px;gap:14px}
+  .logo{font-weight:800;font-size:16px}
+  .logo b{color:var(--gold)}
+  .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;border:none}
+  .btn-gold{background:var(--gold);color:#231a02;box-shadow:0 6px 18px rgba(255,195,43,.25)}
+  .btn-ghost{background:transparent;color:#e8edf8;border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .btn-sm{padding:8px 14px;font-size:12.5px;border-radius:999px}
+  .hero{padding:40px 0 8px}
+  h1{font-size:clamp(26px,4vw,38px);font-weight:800;margin-bottom:8px}
+  .tag{display:inline-flex;font-size:12px;font-weight:800;color:var(--gold);border:1px solid rgba(255,195,43,.4);border-radius:999px;padding:5px 12px;background:rgba(255,195,43,.07);margin-left:10px;vertical-align:middle}
+  .lead{color:var(--muted);font-size:15px;max-width:640px}
+  .howto{background:var(--navy-soft);border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin:22px 0 8px;font-size:14.5px}
+  .howto b{color:var(--gold)}
+  .howto ol{margin:8px 0 0 20px}
+  .howto li{margin-bottom:5px}
+  .card{display:grid;grid-template-columns:300px 1fr;gap:22px;background:var(--navy-soft);border:1px solid var(--line);border-radius:20px;padding:20px;margin:18px 0}
+  .canvas-box{position:relative}
+  canvas{width:100%;border-radius:14px;display:block;background:#0a1b3d;border:1px solid var(--line)}
+  .stat{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:center}
+  .p-title{font-size:18px;font-weight:800;margin-bottom:6px}
+  .p-desc{font-size:14px;color:var(--muted);margin-bottom:12px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .linkline{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .linkline b{color:#e8edf8;font-weight:600}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0 4px}
+  footer{border-top:1px solid var(--line);background:rgba(9,22,48,.7);padding:22px 0;font-size:13px;color:var(--muted);text-align:center;margin-top:40px}
+  footer a{color:#e8edf8}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--gold);color:#231a02;font-weight:800;font-size:13.5px;padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:99}
+  .toast.on{opacity:1}
+  @media(max-width:760px){.card{grid-template-columns:1fr}}
+</style>
+<script defer src="/pinterest.js"></script>
+</head>
+<body>
+<header><div class="wrap header-in">
+  <a class="logo" href="/">🛒 Digistore<b>24/7</b> <span class="tag">PIN KIT — BATCH 2</span></a>
+  <button class="btn btn-gold" id="dlall">⬇ Download all as ZIP</button>
+</div></header>
+<main class="wrap">
+  <div class="hero">
+    <h1>📌 10 fresh shop pins</h1>
+    <p class="lead">Batch 2: new angles across the whole shop. Product spotlights link straight to the product page; shop-wide pins link to the store. Each card has its own copy-link button.</p>
+  </div>
+  <div class="howto">
+    <b>How to pin (2 min each):</b>
+    <ol>
+      <li><b>Download</b> the pin image from the card. Images generate one by one on the free image service (≈1 image / 45 s) — after the first pass they load instantly.</li>
+      <li>Pinterest → <b>Create → Create Pin</b> → upload the image.</li>
+      <li>Paste the <b>title</b> and <b>description</b> from the card, set the <b>destination link</b>, publish.</li>
+    </ol>
+    <p style="margin-top:8px">Tip: links differ per pin — use the copy-link button on each card. Space pins 2–3 days apart, and don't reuse a batch-1 image with a new description.</p>
+  </div>
+  <div id="kit"></div>
+</main>
+<footer>Digistore24/7 pin kit · <a href="/pins.html">← Batch 1</a> · <a href="/">Shop</a> · <a href="/free.html">Free hooks</a></footer>
+<div class="toast" id="toast">Copied ✓</div>
+<script>
+var SHOP = "https://digistore24-7.netlify.app/";
+var PINS = [
+  { n: 1, seed: 3801,
+    title: "Faceless Digital Products for Camera-Shy Creators (from $7)",
+    desc: "You don't need to show your face to build a digital shop. This is a full store of faceless-friendly guides, playbooks, templates and courses — digital marketing, Pinterest, Instagram, YouTube and more. Every product is an instant download, and the entry guide is $7. Browse the whole shelf in one place. #FacelessDigitalProducts #CameraShyCreator #DigitalProducts #OnlineShop",
+    head: "Faceless products, from $7",
+    link: "https://digistore24-7.netlify.app/",
+    prompt: "elegant dark navy blue flat lay with a smartphone showing a luxury online shop grid, gold accents, soft studio light, product cards glowing, photorealistic, no text, no words, no letters" },
+  { n: 2, seed: 3802,
+    title: "5 Digital Products You Can Sell Without Showing Your Face",
+    desc: "No camera, no dancing, no talking head. These are the five easiest digital products for shy creators: templates, planners, prompt packs, checklists and mini-guides. Make one once, deliver it instantly, and sell it from a simple shop. The full starter shelf — guides, hooks, courses and kits — is one link away. #DigitalProductsToSell #FacelessBusiness #DigitalProductIdeas #ShyCreator",
+    head: "5 things you can sell without your face",
+    link: "https://digistore24-7.netlify.app/",
+    prompt: "five glowing gold product cards fanned out on a dark navy background, minimal luxury 3d render, soft rim light, no text, no words, no letters" },
+  { n: 3, seed: 3803,
+    title: "Digital Marketing Guide for Beginners — Start at $7",
+    desc: "New to digital marketing and not sure where to start? This $7 guide covers the basics in plain language: what digital marketing is, how products get found, and the first steps that actually matter. Read it before you spend more on courses or tools. Instant download, beginner-friendly, no camera required. #DigitalMarketingForBeginners #DigitalMarketingGuide #LearnDigitalMarketing #BeginnerFriendly",
+    head: "Start digital marketing for $7",
+    link: "https://payhip.com/b/NOHiI",
+    prompt: "smartphone showing an elegant ebook cover on a dark navy desk, gold pen and notebook, soft morning light, photorealistic, no text, no words, no letters" },
+  { n: 4, seed: 3804,
+    title: "The Faceless Marketing Playbook: Content Without a Camera",
+    desc: "Every faceless page you admire is running a system: content pillars, hooks, posting rhythm and a clear offer. This playbook lays out the whole method so you can stop guessing and start posting without showing your face. Beginner-friendly, practical, and made for camera-shy creators. Instant download. #FacelessMarketing #FacelessContent #ContentStrategy #CameraShyCreator",
+    head: "Content without a camera",
+    link: "https://payhip.com/b/HtVOm",
+    prompt: "premium ebook cover on a dark navy desk with gold accents, phone and coffee, soft studio light, photorealistic, no text, no words, no letters" },
+  { n: 5, seed: 3805,
+    title: "How to Create and Sell Your First Digital Product",
+    desc: "You don't need a huge audience or a warehouse — just one useful digital product and a place to sell it. This guide walks you through choosing an idea, building the smallest version, writing the promise and making your first sale. It covers creating and selling in one place, so you're not piecing it together from 20 videos. Instant download. #SellDigitalProducts #DigitalProductIdeas #FirstDigitalProduct #DigitalBusiness",
+    head: "Create it once. Sell it again.",
+    link: "https://payhip.com/b/9zJxC",
+    prompt: "ebook cover beside an open laptop showing a simple product page, dark navy desk, gold accents, cozy evening light, photorealistic, no text, no words, no letters" },
+  { n: 6, seed: 3806,
+    title: "Rebrand This Social Media Kit and Sell It as Your Own (MRR)",
+    desc: "A done-for-you digital product kit with master resell rights: rebrand the covers, add your name, and sell it from your own shop. Inside are ready-made ebook pages, templates and checklists covering social media strategy. It's the fastest way to have something to sell while you build your own products. Instant download. #MasterResellRights #MRR #DigitalProductKit #SocialMediaMastery",
+    head: "Rebrand it. Sell it as yours.",
+    link: "https://payhip.com/b/TWYRm",
+    prompt: "luxury digital product kit cover with a gold badge on a dark navy desk, premium stationery, dramatic soft light, 3d render, no text, no words, no letters" },
+  { n: 7, seed: 3807,
+    title: "How to Sell Digital Products on Pinterest (Without a Following)",
+    desc: "Pinterest is a search engine wearing a mood board costume — people go there looking for ideas and buying what solves them. This guide shows how to set up your pins, write titles and descriptions that get found, and link them to a product that's ready to sell. Includes the Etsy side too. Instant download. #PinterestMarketing #SellOnPinterest #PinterestForBusiness #DigitalProducts",
+    head: "Pinterest is a search engine",
+    link: "https://payhip.com/b/v64nf",
+    prompt: "vertical mood board with lifestyle photos and gold pins on a dark navy wall, warm aesthetic, e-commerce concept, photorealistic, no text, no words, no letters" },
+  { n: 8, seed: 3808,
+    title: "Instagram Growth Without Showing Your Face",
+    desc: "You can grow on Instagram without dancing, pointing or showing your face. This blueprint covers the faceless formats that work — carousels, text-on-screen reels, screen recordings and POV b-roll — plus the profile setup and caption structure that turn followers into buyers. Made for camera-shy creators. Instant download. #InstagramGrowth #FacelessInstagram #InstagramTips #CameraShyCreator",
+    head: "Grow without showing your face",
+    link: "https://payhip.com/b/7ZGzl",
+    prompt: "smartphone showing a stylish faceless Instagram grid, dark navy desk with gold accents, soft studio light, photorealistic, no text, no words, no letters" },
+  { n: 9, seed: 3809,
+    title: "100 Ready-Made Reels for the Days You're Burned Out",
+    desc: "Some days you just can't brainstorm another hook. That's what this is for: 100 done-for-you reel hooks and captions you can copy, paste and post. Pick one, film the b-roll, add the text, done. Works for TikTok, Reels and Shorts. Instant download — keep it open on your phone for the next 100 posting days. #ReelsIdeas #ContentIdeas #TikTokHooks #ReelsForCreators",
+    head: "100 reels. Zero brainstorming.",
+    link: "https://payhip.com/b/YZzvP",
+    prompt: "smartphone showing a list of video hooks with a glowing gold play button, dark navy background, content creator aesthetic, cinematic, no text, no words, no letters" },
+  { n: 10, seed: 3810,
+    title: "The 2027 Budget Planner That Works on Your Phone",
+    desc: "A full year of money planning in one digital file: 12 monthly budgets, savings goals, debt payoff and a 12-month bill tracker. It opens in any browser, saves on your device, and prints clean if you prefer paper. No app, no subscription, no login. The one non-marketing product in the shop — because the business works better when the money is organized. Instant download. #2027BudgetPlanner #BudgetPlanner #MoneyManagement #DigitalPlanner",
+    head: "Your whole 2027 money plan",
+    link: "https://payhip.com/b/E7Aj0",
+    prompt: "elegant navy 2027 budget planner on a phone and desk, gold pen and coffee, soft morning light, organized, photorealistic, no text, no words, no letters" }
+];
+var kit = document.getElementById("kit");
+function pinUrl(p, bump) {
+  return "https://image.pollinations.ai/prompt/" + encodeURIComponent(p.prompt) + "?width=1000&height=1500&seed=" + (p.seed + (bump || 0)) + "&nologo=true&model=flux";
+}
+function toast() {
+  var t = document.getElementById("toast"); t.classList.add("on");
+  setTimeout(function () { t.classList.remove("on"); }, 1400);
+}
+function copyText(txt) {
+  var done = function () { toast(); };
+  var fallback = function () {
+    var ta = document.createElement("textarea"); ta.value = txt;
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done, fallback);
+  } else { fallback(); }
+}
+function wrapLines(ctx, text, maxW) {
+  var words = text.split(" ");
+  var lines = []; var cur = "";
+  for (var i = 0; i < words.length; i++) {
+    var test = cur ? cur + " " + words[i] : words[i];
+    if (ctx.measureText(test).width > maxW && cur) { lines.push(cur); cur = words[i]; }
+    else { cur = test; }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+function drawPin(cv, img, p) {
+  var ctx = cv.getContext("2d");
+  var W = 1000, H = 1500;
+  var iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+  var s = Math.max(W / iw, H / ih);
+  var dw = iw * s, dh = ih * s;
+  ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+  ctx.fillStyle = "rgba(9,22,48,0.22)";
+  ctx.fillRect(0, 0, W, H);
+  var grd = ctx.createLinearGradient(0, H * 0.45, 0, H);
+  grd.addColorStop(0, "rgba(9,22,48,0)");
+  grd.addColorStop(1, "rgba(9,22,48,0.94)");
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, H * 0.45, W, H * 0.55);
+  ctx.fillStyle = "#FFC32B";
+  ctx.beginPath();
+  ctx.font = "800 30px 'Segoe UI', Arial, sans-serif";
+  var bw = ctx.measureText("DIGISTORE24/7").width + 44;
+  if (ctx.roundRect) { ctx.roundRect(48, 48, bw, 58, 29); } else { ctx.rect(48, 48, bw, 58); }
+  ctx.fill();
+  ctx.fillStyle = "#231a02";
+  ctx.textBaseline = "middle";
+  ctx.fillText("DIGISTORE24/7", 70, 78);
+  ctx.textBaseline = "alphabetic";
+  ctx.font = "800 58px 'Segoe UI', Arial, sans-serif";
+  var lines = wrapLines(ctx, (p && p.head) ? p.head : p.title, W - 192);
+  var ty = H - 320 - (lines.length - 1) * 68;
+  ctx.shadowColor = "rgba(0,0,0,0.55)";
+  ctx.shadowBlur = 14;
+  ctx.fillStyle = "#ffffff";
+  for (var i = 0; i < lines.length; i++) {
+    ctx.fillText(lines[i], 96, ty + i * 68);
+  }
+  ctx.shadowBlur = 0;
+  ctx.font = "800 36px 'Segoe UI', Arial, sans-serif";
+  var pt = "Open 24/7 · from $7";
+  var pw = ctx.measureText(pt).width + 60;
+  ctx.fillStyle = "#FFC32B";
+  ctx.beginPath();
+  if (ctx.roundRect) { ctx.roundRect((W - pw) / 2, H - 210, pw, 62, 31); } else { ctx.rect((W - pw) / 2, H - 210, pw, 62); }
+  ctx.fill();
+  ctx.fillStyle = "#231a02";
+  ctx.textBaseline = "middle";
+  ctx.fillText(pt, (W - pw) / 2 + 30, H - 179);
+  ctx.textBaseline = "alphabetic";
+  ctx.font = "600 27px 'Segoe UI', Arial, sans-serif";
+  ctx.fillStyle = "rgba(255,255,255,0.88)";
+  var ut = (p && p.link) ? p.link.replace(/^https?:\/\//, "") : "digistore24-7.netlify.app";
+  ctx.fillText(ut, (W - ctx.measureText(ut).width) / 2, H - 104);
+}
+var queue = [];
+var busy = false;
+function enqueue(task) { queue.push(task); setTimeout(pump, 0); }
+function pump() {
+  if (busy || !queue.length) { return; }
+  busy = true;
+  var task = queue.shift();
+  task(function () { busy = false; setTimeout(pump, 1200); });
+}
+PINS.forEach(function (p) {
+  var card = document.createElement("div"); card.className = "card";
+  var box = document.createElement("div"); box.className = "canvas-box";
+  var cv = document.createElement("canvas"); cv.width = 1000; cv.height = 1500;
+  var stat = document.createElement("div"); stat.className = "stat";
+  stat.textContent = "In queue — images load one by one (free tier ≈ 1 image / 45 s).";
+  box.appendChild(cv); box.appendChild(stat);
+  var meta = document.createElement("div");
+  var t = document.createElement("div"); t.className = "p-title"; t.textContent = p.n + ". " + p.title;
+  var d = document.createElement("div"); d.className = "p-desc"; d.textContent = p.desc;
+  var link = document.createElement("div"); link.className = "linkline";
+  var dest = p.link || SHOP;
+  link.innerHTML = "Destination link: <b>" + dest + "</b>";
+  var row = document.createElement("div"); row.className = "row";
+  var bDl = document.createElement("button"); bDl.className = "btn btn-gold btn-sm dl"; bDl.textContent = "⬇ Download pin"; bDl.style.display = "none";
+  var bReroll = document.createElement("button"); bReroll.className = "btn btn-ghost btn-sm"; bReroll.textContent = "🎲 Another look";
+  var bT = document.createElement("button"); bT.className = "btn btn-ghost btn-sm"; bT.textContent = "📋 Copy title";
+  var bD = document.createElement("button"); bD.className = "btn btn-ghost btn-sm"; bD.textContent = "📋 Copy description";
+  var bL = document.createElement("button"); bL.className = "btn btn-ghost btn-sm"; bL.textContent = "📋 Copy link";
+  bT.addEventListener("click", function () { copyText(p.title); });
+  bD.addEventListener("click", function () { copyText(p.desc); });
+  bL.addEventListener("click", function () { copyText(p.link || SHOP); });
+  row.appendChild(bDl); row.appendChild(bReroll); row.appendChild(bT); row.appendChild(bD); row.appendChild(bL);
+  meta.appendChild(t); meta.appendChild(d); meta.appendChild(link); meta.appendChild(row);
+  card.appendChild(box); card.appendChild(meta);
+  kit.appendChild(card);
+  var bump = 0;
+  function loadPin(b, done) {
+    var url = pinUrl(p, b);
+    stat.textContent = "Generating... (free tier ≈ 1 image / 45 s)";
+    function attempt(n) {
+      fetch(url, { cache: "default" }).then(function (r) {
+        if (!r.ok) { throw { retry: true, status: r.status }; }
+        return r.blob();
+      }).then(function (blob) {
+        if (blob.type.indexOf("image/") !== 0) { throw { retry: true }; }
+        return new Promise(function (res, rej) {
+          var img = new Image();
+          img.onload = function () { res(img); };
+          img.onerror = function () { rej({ retry: true }); };
+          img.src = URL.createObjectURL(blob);
+        });
+      }).then(function (img) {
+        try {
+          drawPin(cv, img, p);
+          stat.textContent = "Ready — download below. (seed " + (p.seed + b) + ")";
+          bDl.style.display = "inline-flex";
+        } catch (e) {
+          stat.textContent = "Image loaded — right-click the canvas to save if the button fails.";
+        }
+        done();
+      }).catch(function (err) {
+        var left = 46;
+        stat.textContent = "Free image limit hit — retrying in " + left + " s...";
+        var iv = setInterval(function () {
+          left--;
+          if (left <= 0) { clearInterval(iv); attempt(n + 1); }
+          else { stat.textContent = "Free image limit hit — retrying in " + left + " s..."; }
+        }, 1000);
+      });
+    }
+    attempt(0);
+  }
+  enqueue(function (done) { loadPin(bump, done); });
+  bReroll.addEventListener("click", function () {
+    bump += 517;
+    bDl.style.display = "none";
+    stat.textContent = "In queue — a new look will generate after the current task.";
+    enqueue(function (done) { loadPin(bump, done); });
+  });
+  bDl.addEventListener("click", function () {
+    try {
+      cv.toBlob(function (blob) {
+        if (!blob) { toast(); return; }
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "shop-pin-b2-" + (p.n < 10 ? "0" + p.n : p.n) + ".jpg";
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      }, "image/jpeg", 0.92);
+    } catch (e) {
+      stat.textContent = "Download blocked — right-click the image to save instead.";
+    }
+  });
+});
+document.getElementById("dlall").addEventListener("click", async function () {
+  var btn = this;
+  btn.textContent = "⏳ Packing...";
+  btn.disabled = true;
+  try {
+    var canvases = document.querySelectorAll("canvas");
+    var files = [];
+    for (var i = 0; i < canvases.length; i++) {
+      var card = canvases[i].closest(".card");
+      var stat = card.querySelector(".stat");
+      if (!stat || stat.textContent.indexOf("Ready") !== 0) { continue; }
+      var blob = await new Promise(function (res) { canvases[i].toBlob(res, "image/jpeg", 0.92); });
+      if (!blob) { continue; }
+      var u8 = new Uint8Array(await blob.arrayBuffer());
+      var idx = files.length + 1;
+      files.push({ name: "shop-pin-b2-" + (idx < 10 ? "0" + idx : idx) + ".jpg", u8: u8 });
+    }
+    if (!files.length) { btn.textContent = "No ready pins yet"; btn.disabled = false; return; }
+    var zip = makeZip(files);
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(zip);
+    a.download = "digistore-shop-pins-batch2.zip";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 6000);
+    btn.textContent = "⬇ Download all as ZIP";
+    btn.disabled = false;
+  } catch (e) {
+    btn.textContent = "ZIP failed — use card buttons";
+    btn.disabled = false;
+  }
+});
+var __crct = null;
+function crc32(buf) {
+  if (!__crct) {
+    __crct = new Uint32Array(256);
+    for (var n = 0; n < 256; n++) {
+      var c = n;
+      for (var k = 0; k < 8; k++) { c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); }
+      __crct[n] = c >>> 0;
+    }
+  }
+  var c2 = 0 ^ (-1);
+  for (var i2 = 0; i2 < buf.length; i2++) { c2 = (c2 >>> 8) ^ __crct[(c2 ^ buf[i2]) & 0xFF]; }
+  return (c2 ^ (-1)) >>> 0;
+}
+function makeZip(files) {
+  var enc = new TextEncoder();
+  var chunks = [], central = [], offset = 0;
+  files.forEach(function (f) {
+    var name = enc.encode(f.name);
+    var crc = crc32(f.u8);
+    var local = new Uint8Array(30 + name.length);
+    var dv = new DataView(local.buffer);
+    dv.setUint32(0, 0x04034b50, true);
+    dv.setUint16(4, 20, true);
+    dv.setUint16(6, 0x0800, true);
+    dv.setUint16(10, 0, true); dv.setUint16(12, 0, true);
+    dv.setUint32(14, crc, true);
+    dv.setUint32(18, f.u8.length, true);
+    dv.setUint32(22, f.u8.length, true);
+    dv.setUint16(26, name.length, true);
+    dv.setUint16(28, 0, true);
+    local.set(name, 30);
+    chunks.push(local); chunks.push(f.u8);
+    central.push({ name: name, crc: crc, size: f.u8.length, offset: offset });
+    offset += local.length + f.u8.length;
+  });
+  var cdStart = offset, cdSize = 0;
+  central.forEach(function (e) {
+    var h = new Uint8Array(46 + e.name.length);
+    var dv = new DataView(h.buffer);
+    dv.setUint32(0, 0x02014b50, true);
+    dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+    dv.setUint16(8, 0x0800, true);
+    dv.setUint32(16, e.crc, true);
+    dv.setUint32(20, e.size, true);
+    dv.setUint32(24, e.size, true);
+    dv.setUint16(28, e.name.length, true);
+    dv.setUint32(42, e.offset, true);
+    h.set(e.name, 46);
+    chunks.push(h);
+    cdSize += h.length;
+  });
+  var eocd = new Uint8Array(22);
+  var dv2 = new DataView(eocd.buffer);
+  dv2.setUint32(0, 0x06054b50, true);
+  dv2.setUint16(8, files.length, true);
+  dv2.setUint16(10, files.length, true);
+  dv2.setUint32(12, cdSize, true);
+  dv2.setUint32(16, cdStart, true);
+  chunks.push(eocd);
+  return new Blob(chunks, { type: "application/zip" });
+}
+</script>
+</body>
+</html>
